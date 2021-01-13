@@ -361,4 +361,3 @@ bash distributed_data_parallel_train.sh configs/test/distributed_data_parallel.y
 ## Contacts
 
 If you have any question about our work, please do not hesitate to contact us by emails provided in the [paper](http://www.lamda.nju.edu.cn/zhangys/papers/AAAI_tricks.pdf).
-
