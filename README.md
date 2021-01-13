@@ -4,9 +4,9 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 
 
 
-#### Trick gallery:  ***[trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/documents/trick_gallery.md)***
+#### Trick gallery:  ***[trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md)***
 
-#### Trick combinations: *[trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/documents/trick_combination.md)*
+#### Trick combinations: *[trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md)*
 
 
 
@@ -40,17 +40,17 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 
 We divided the long-tail realted tricks into four families: re-weighting, re-sampling, mixup training, and two-stage training. For more details of the above four trick families, see the [original paper](https://cs.nju.edu.cn/wujx/paper/AAAI2021_Tricks.pdf).
 
-For re-weighting, re-sampling, and mixup training, we implement these methods in  [loss](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/lib/loss/loss.py), [dataset](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/lib/dataset), and [combiner](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/lib/core/combiner.py), respectively. For two-stage training, which contains DRW and DRS, we implement them in  [loss](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/lib/loss/loss.py) and [dataset](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/lib/dataset),
+For re-weighting, re-sampling, and mixup training, we implement these methods in  [loss](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/loss/loss.py), [dataset](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/lib/dataset), and [combiner](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/core/combiner.py), respectively. For two-stage training, which contains DRW and DRS, we implement them in  [loss](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/loss/loss.py) and [dataset](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/lib/dataset),
 
 #### Detailed information :
 
 - Trick gallery:
 
-  ##### Tricks, corresponding results, experimental settings, and running commands are listed in ***[trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/documents/trick_gallery.md)***.
+  ##### Tricks, corresponding results, experimental settings, and running commands are listed in ***[trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md)***.
 
 - Trick combinations:
 
-  ##### Combinations of different tricks, corresponding results, experimental settings, and running commands are listed in *[trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/documents/trick_combination.md)*.
+  ##### Combinations of different tricks, corresponding results, experimental settings, and running commands are listed in *[trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md)*.
   
 - These tricks and trick combinations, which provide the corresponding results in this repo, have been reorgnized and tested. We are trying our best to deal with the rest, which will be constantly updated.
 
@@ -146,11 +146,11 @@ The detailed information of these datasets are shown as follows:
   </tr>
 </tbody>
 </table>
-<font size=2> -  `Max images` and `Min images` represents the number of training images in the largest and smallest classes, respectively.</font>
+-`Max images` and `Min images` represents the number of training images in the largest and smallest classes, respectively.
 
-<font size=2> -  `CIFAR-10-LT-100` means the long-tailed CIFAR-10 dataset with the imbalance factor $\beta = 100$.</font>
+<font size=2> -  `CIFAR-10-LT-100` means the long-tailed CIFAR-10 dataset with the imbalance factor $\beta = 100$.</font>
 
-<font size=2>  -  `Imbalance factor` is defined as $\beta = \frac{\text{Max images}}{\text{Min images}}$.</font>
+<font size=2> -  `Imbalance factor` is defined as $\beta = \frac{\text{Max images}}{\text{Min images}}$.</font>
 
 - #### Data format
 
@@ -190,7 +190,7 @@ Here is an example.
   python tools/convert_from_tfrecords.py  --input_path /downloaded/data/ --out_path /downloaded/converted/
   ```
 
-  2. [Cao et al., ICLR 2020](https://arxiv.org/abs/1910.09217) followed  [Cui et al., CVPR 2019](https://arxiv.org/abs/1901.05555)'s method to generate the CIFAR-LT randomly. They modify the CIFAR datasets provided by PyTorch as [this file](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/lib/dataset/cao_cifar.py) shows.
+  2. [Cao et al., ICLR 2020](https://arxiv.org/abs/1910.09217) followed  [Cui et al., CVPR 2019](https://arxiv.org/abs/1901.05555)'s method to generate the CIFAR-LT randomly. They modify the CIFAR datasets provided by PyTorch as [this file](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/dataset/cao_cifar.py) shows.
 
 - #### ImageNet-LT
 
