@@ -32,7 +32,6 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 - [ ] Add more backbones in each long-tailed benchmark to exlpore the influence of network capacity.
 - [ ] Add trick family: `post-processing` and corresponding experiments, such as [$\tau$-normalization, ICLR 2020](https://openreview.net/forum?id=r1gRTCVFvB).
 - [ ] Update the version of PyTorch to >=1.6, and use torch.cuda.amp instead of apex provided by Nividia.
-- [ ] Add leaderboards on different long-tailed benchmarks.
 
 ## Trick gallery and combinations
 
@@ -40,7 +39,7 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 
 We divided the long-tail realted tricks into four families: re-weighting, re-sampling, mixup training, and two-stage training. For more details of the above four trick families, see the [original paper](https://cs.nju.edu.cn/wujx/paper/AAAI2021_Tricks.pdf).
 
-For re-weighting, re-sampling, and mixup training, we implement these methods in  [loss](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/loss/loss.py), [dataset](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/lib/dataset), and [combiner](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/core/combiner.py), respectively. For two-stage training, which contains DRW and DRS, we implement them in  [loss](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/loss/loss.py) and [dataset](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/lib/dataset),
+<!--For re-weighting, re-sampling, and mixup training, we implement these methods in  [loss](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/loss/loss.py), [dataset](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/lib/dataset), and [combiner](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/core/combiner.py), respectively. For two-stage training, which contains DRW and DRS, we implement them in  [loss](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/loss/loss.py) and [dataset](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/lib/dataset).-->
 
 #### Detailed information :
 
@@ -146,11 +145,11 @@ The detailed information of these datasets are shown as follows:
   </tr>
 </tbody>
 </table>
--`Max images` and `Min images` represents the number of training images in the largest and smallest classes, respectively.
+<font size=2> -  `Max images` and `Min images` represents the number of training images in the largest and smallest classes, respectively.</font>
 
-<font size=2> -  `CIFAR-10-LT-100` means the long-tailed CIFAR-10 dataset with the imbalance factor $\beta = 100$.</font>
+<font size=2> -  `CIFAR-10-LT-100` means the long-tailed CIFAR-10 dataset with the imbalance factor $\beta = 100$.</font>
 
-<font size=2> -  `Imbalance factor` is defined as $\beta = \frac{\text{Max images}}{\text{Min images}}$.</font>
+<font size=2> -  `Imbalance factor` is defined as $\beta = \frac{\text{Max images}}{\text{Min images}}$.</font>
 
 - #### Data format
 
@@ -225,9 +224,9 @@ Here is an example.
 
 In this repo:
 
-- The results of **CIFAR-LT (ResNet-32) and ImageNet-LT (ResNet-10)**, which need only one GPU to train, are **gotten by DataParallel training with apex**.
+- The results of CIFAR-LT (ResNet-32) and ImageNet-LT (ResNet-10), which need only one GPU to train, are gotten by DataParallel training with apex.
 
-- The results of i**Nat18 (ResNet-50)**, which need more than one GPU to train, are **gotten by DistributedDataParallel  training with apex**. 
+- The results of iNat18 (ResNet-50), which need more than one GPU to train, are gotten by DistributedDataParallel  training with apex. 
 
 - If more than one GPU is used, DistributedDataParallel training is efficient than DataParallel training, especially when the CPU calculation forces are limited.
 
