@@ -146,10 +146,9 @@ The detailed information of these datasets are shown as follows:
   </tr>
 </tbody>
 </table>
-
 <font size=2> -  `Max images` and `Min images` represents the number of training images in the largest and smallest classes, respectively.</font>
 
-<font size=2> - `CIFAR-10-LT-100` means the long-tailed CIFAR-10 dataset with the imbalance factor $\beta = 100$.</font>
+<font size=2> -  `CIFAR-10-LT-100` means the long-tailed CIFAR-10 dataset with the imbalance factor $\beta = 100$.</font>
 
 <font size=2>  -  `Imbalance factor` is defined as $\beta = \frac{\text{Max images}}{\text{Min images}}$.</font>
 
@@ -186,42 +185,41 @@ Here is an example.
      1. Download the Cui's CIFAR-LT in [GoogleDrive](https://drive.google.com/file/d/1NY3lWYRfsTWfsjFPxJUlPumy-WFeD7zK/edit) or [Baidu Netdisk ](https://pan.baidu.com/s/1rhTPUawY3Sky6obDM4Tczg) (password: 5rsq). Suppose you download the data and unzip them at path `/downloaded/data/`.
      2. Run tools/convert_from_tfrecords, and the converted CIFAR-LT and corresponding jsons will be generated at `/downloaded/converted/`.
 
-     ```bash
-     # Convert from the original format of iNaturalist
-     python tools/convert_from_tfrecords.py  --input_path /downloaded/data/ --out_path /downloaded/converted/
-     ```
+  ```bash
+  # Convert from the original format of iNaturalist
+  python tools/convert_from_tfrecords.py  --input_path /downloaded/data/ --out_path /downloaded/converted/
+  ```
 
   2. [Cao et al., ICLR 2020](https://arxiv.org/abs/1910.09217) followed  [Cui et al., CVPR 2019](https://arxiv.org/abs/1901.05555)'s method to generate the CIFAR-LT randomly. They modify the CIFAR datasets provided by PyTorch as [this file](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/lib/dataset/cao_cifar.py) shows.
+
 - #### ImageNet-LT
 
-You can use the following steps to convert from the original images of ImageNet-LT.
+  You can use the following steps to convert from the original images of ImageNet-LT.
 
-1. Download the original [ILSVRC-2012](http://www.image-net.org/). Suppose you have downloaded and reorgnized them at path `/downloaded/ImageNet/`, which should contain two sub-directories: `/downloaded/ImageNet/train` and `/downloaded/ImageNet/val`.
-2. Download the train/test splitting files (`ImageNet_LT_train.txt` and `ImageNet_LT_test.txt`) in [GoogleDrive](https://drive.google.com/drive/u/0/folders/19cl6GK5B3p5CxzVBy5i4cWSmBy9-rT_-) or [Baidu Netdisk](https://pan.baidu.com/s/17alnFve8l-oMZFZQLxHrzQ) (password: cj0g).  Suppose you have downloaded them at path `/downloaded/ImageNet-LT/`.
-3. Run tools/convert_from_ImageNet.py.
+  1. Download the original [ILSVRC-2012](http://www.image-net.org/). Suppose you have downloaded and reorgnized them at path `/downloaded/ImageNet/`, which should contain two sub-directories: `/downloaded/ImageNet/train` and `/downloaded/ImageNet/val`.
+  2. Download the train/test splitting files (`ImageNet_LT_train.txt` and `ImageNet_LT_test.txt`) in [GoogleDrive](https://drive.google.com/drive/u/0/folders/19cl6GK5B3p5CxzVBy5i4cWSmBy9-rT_-) or [Baidu Netdisk](https://pan.baidu.com/s/17alnFve8l-oMZFZQLxHrzQ) (password: cj0g).  Suppose you have downloaded them at path `/downloaded/ImageNet-LT/`. 
+  3. Run tools/convert_from_ImageNet.py, and you will get two jsons: `ImageNet_LT_train.json` and `ImageNet_LT_val.json`.
 
-```bash
-# Convert from the original format of iNaturalist
-python tools/convert_from_ImageNet.py --input_path /downloaded/ImageNet-LT/ --image_path /downloaed/ImageNet/ --output_path ./
-```
-
-​	     4. The above command will output two jsons: `ImageNet_LT_train.json` and `ImageNet_LT_val.json`.
+  ```bash
+  # Convert from the original format of iNaturalist
+  python tools/convert_from_ImageNet.py --input_path /downloaded/ImageNet-LT/ --image_path /downloaed/ImageNet/ --output_path ./
+  ```
 
 - #### iNat18
   
-
-You can use the following steps to convert from the original format of iNaturalist 2018. 
-
+  You can use the following steps to convert from the original format of iNaturalist 2018. 
+  
   1. The images and annotations should be downloaded at [iNaturalist 2018](https://github.com/visipedia/inat_comp/blob/master/2018/README.md) firstly. Suppose you have downloaded them at  path `/downloaded/iNat18/`.
-  2. Run tools/convert_from_iNat.py.
-```bash
-# Convert from the original format of iNaturalist
-# See tools/convert_from_iNat.py for more details of args 
-python tools/convert_from_iNat.py --input_json_file /downloaded/iNat18/train2018.json --image_path /downloaded/iNat18/images --output_json_file ./iNat18_train.json
-
-python tools/convert_from_iNat.py --input_json_file /downloaded/iNat18/val2018.json --image_path /downloaded/iNat18/images --output_json_file ./iNat18_val.json
-```
-​		3. Use the generated `iNat18_train.json` and `iNat18_val.json` to train.
+  2. Run tools/convert_from_iNat.py, and use the generated `iNat18_train.json` and `iNat18_val.json` to train.
+  
+  ```bash
+  # Convert from the original format of iNaturalist
+  # See tools/convert_from_iNat.py for more details of args 
+  python tools/convert_from_iNat.py --input_json_file /downloaded/iNat18/train2018.json --image_path /downloaded/iNat18/images --output_json_file ./iNat18_train.json
+  
+  python tools/convert_from_iNat.py --input_json_file /downloaded/iNat18/val2018.json --image_path /downloaded/iNat18/images --output_json_file ./iNat18_val.json 
+  ```
+  
 
 ## Usage
 
