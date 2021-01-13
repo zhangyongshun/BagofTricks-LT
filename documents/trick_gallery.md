@@ -1,7 +1,7 @@
 # Tricks, corresponding results, experimental settings, and running commands
 
 - The file contains the results, experimental settings, and running commands of different tricks. These tricks are divided into four families, which are re-weighting, re-sampling, mixup training, and two-stage training. For more details of the above four trick families, see the [original paper](https://cs.nju.edu.cn/wujx/paper/AAAI2021_Tricks.pdf).
-- For any problem, such as bugs, feel free to open an issue.
+- For any problem, such as bugs, feel free to [open an issue](https://github.com/zhangyongshun/BagofTricks-LT/issues).
 - <u>Before you train, you should change the training and validation jsons in CONFIG files to your own path.</u>
 - <u>Click each method to get the experimental setting  configs and running commands.</u>
 

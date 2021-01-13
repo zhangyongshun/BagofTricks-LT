@@ -5,7 +5,7 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 
 * The tricks will be **constantly updated**. If you have or need any long-tail related trick newly proposed, 
   please to [open an issue](https://github.com/zhangyongshun/BagofTricks-LT/issues) or [pull requests](https://github.com/zhangyongshun/BagofTricks-LT/pulls). Make sure to attach the results in corresponding md files if you pull a request with a new trick.
-* Codes are based on [Megvii-Nanjing/BBN](https://github.com/Megvii-Nanjing/BBN). Welcome to [find a job or an intern position]() in Megvii Research Nanjing.
+* Codes are based on [Megvii-Nanjing/BBN](https://github.com/Megvii-Nanjing/BBN). Welcome to [find a job or an intern position](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/documents/MRN_jobs.jpg) in Megvii Research Nanjing.
 * For any problem, such as bugs, feel free to [open an issue](https://github.com/zhangyongshun/BagofTricks-LT/issues).
 
 <!--<><summary> <b>TODO LIST</b> </summary></details>-->
@@ -32,17 +32,17 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 
 We divided the long-tail realted tricks into four families: re-weighting, re-sampling, mixup training, and two-stage training. For more details of the above four trick families, see the [original paper](https://cs.nju.edu.cn/wujx/paper/AAAI2021_Tricks.pdf).
 
-For re-weighting, re-sampling, and mixup training, we implement these methods in [loss](), [dataset](), and [combiner](), respectively. For two-stage training, which contains DRW and DRS, we implement them in  [loss]() and  [dataset]().
+For re-weighting, re-sampling, and mixup training, we implement these methods in  [loss](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/lib/loss/loss.py), [dataset](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/lib/dataset), and [combiner](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/lib/core/combiner.py), respectively. For two-stage training, which contains DRW and DRS, we implement them in  [loss](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/lib/loss/loss.py) and [dataset](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/lib/dataset),
 
 #### Detailed information :
 
 - Trick gallery:
 
-  ##### Tricks, corresponding results, experimental settings, and running commands are listed in *[trick_gallery.md]()*.
+  ##### Tricks, corresponding results, experimental settings, and running commands are listed in ***[trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/documents/trick_gallery.md)***.
 
 - Trick combinations:
 
-  ##### Combinations of different tricks, corresponding results, experimental settings, and running commands are listed in *[trick_combination.md]()*.
+  ##### Combinations of different tricks, corresponding results, experimental settings, and running commands are listed in *[trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/documents/trick_combination.md)*.
   
 - These tricks and trick combinations, which provide the corresponding results in this repo, have been reorgnized and tested. We are trying our best to deal with the rest, which will be constantly updated.
 
@@ -56,7 +56,7 @@ tensorflow >= 1.14.0 #convert long-tailed cifar datasets from tfrecords to jpgs
 Python 3
 apex
 ```
-- We provide the detailed requirements in [environment.yaml](). You can run `conda env create -f environment.yaml` to create the same running environment as ours.
+- We provide the detailed requirements in [environment.yaml](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/documents/environment.yaml). You can run `conda env create -f environment.yaml` to create the same running environment as ours.
 - The [apex](https://github.com/NVIDIA/apex) **must be installed**:
 ```bash 
 pip3 install -U pip3
@@ -183,7 +183,7 @@ Here is an example.
      python tools/convert_from_tfrecords.py  --input_path /downloaded/data/ --out_path /downloaded/converted/
      ```
 
-  2. [Cao et al., ICLR 2020](https://arxiv.org/abs/1910.09217) followed  [Cui et al., CVPR 2019](https://arxiv.org/abs/1901.05555)'s method to generate the CIFAR-LT randomly. They modify the CIFAR datasets provided by PyTorch as [cao_cifar.py]() shows.
+  2. [Cao et al., ICLR 2020](https://arxiv.org/abs/1910.09217) followed  [Cui et al., CVPR 2019](https://arxiv.org/abs/1901.05555)'s method to generate the CIFAR-LT randomly. They modify the CIFAR datasets provided by PyTorch as [this file](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/lib/dataset/cao_cifar.py) shows.
 - #### ImageNet-LT
 
 You can use the following steps to convert from the original images of ImageNet-LT.
