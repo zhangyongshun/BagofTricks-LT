@@ -3,6 +3,14 @@
 This repository is the official PyTorch implementation of AAAI-21 paper [Bag of Tricks for Long-Tailed Visual Recognition with Deep Convolutional Neural Networks](http://www.lamda.nju.edu.cn/zhangys/papers/AAAI_tricks.pdf), which provides practical and effective tricks used in long-tailed image classification. 
 
 
+
+#### Trick gallery:  ***[trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/documents/trick_gallery.md)***
+
+#### Trick combinations: *[trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/documents/trick_combination.md)*
+
+
+
+
 * The tricks will be **constantly updated**. If you have or need any long-tail related trick newly proposed, 
   please to [open an issue](https://github.com/zhangyongshun/BagofTricks-LT/issues) or [pull requests](https://github.com/zhangyongshun/BagofTricks-LT/pulls). Make sure to attach the results in corresponding md files if you pull a request with a new trick.
 * Codes are based on [Megvii-Nanjing/BBN](https://github.com/Megvii-Nanjing/BBN). Welcome to [find a job or an intern position](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/documents/MRN_jobs.jpg) in Megvii Research Nanjing.
@@ -303,10 +311,10 @@ bash distributed_data_parallel_train.sh configs/test/distributed_data_parallel.y
       <ol>
       <li>CONFIG (from left to right): 
         <ul>
-          <li>config/cui_cifar/baseline/{cifar10_im100.yaml, cifar10_im50.yaml, cifar100_im100.yaml, cifar100_im50.yaml}</li> 
-          <li>config/cao_cifar/baseline/{cifar10_im100.yaml, cifar10_im50.yaml, cifar100_im100.yaml, cifar100_im50.yaml}</li>
-          <li>config/ImageNet_LT/imagenetlt_baseline.yaml</li>
-          <li>config/iNat18/iNat18_baseline.yaml</li>
+          <li>configs/cui_cifar/baseline/{cifar10_im100.yaml, cifar10_im50.yaml, cifar100_im100.yaml, cifar100_im50.yaml}</li> 
+          <li>configs/cao_cifar/baseline/{cifar10_im100.yaml, cifar10_im50.yaml, cifar100_im100.yaml, cifar100_im50.yaml}</li>
+          <li>configs/ImageNet_LT/imagenetlt_baseline.yaml</li>
+          <li>configs/iNat18/iNat18_baseline.yaml</li>
         </ul>
         </li><br/>
       <li>Running commands:
@@ -343,6 +351,7 @@ bash distributed_data_parallel_train.sh configs/test/distributed_data_parallel.y
   </tr>
 </tbody>
 </table>
+
 
 
 ## Citation
