@@ -1,6 +1,10 @@
+jupyter/
+*/jupyter/
 .DS_Store
 */.DS_Store
-.vscode/
+combinations
+*/.combinations
+.vscode
 # Byte-compiled / optimized / DLL files
 __pycache__/
 */__pycache__/

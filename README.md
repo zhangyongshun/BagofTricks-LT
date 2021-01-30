@@ -26,8 +26,8 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 - [x] `2021-01-05` - Add [SEQL (softmax equalization loss), CVPR 2020](https://arxiv.org/abs/2003.05176).
 - [x] `2021-01-10` - Add [CDT (class-dependent temparature), arXiv 2020](https://arxiv.org/abs/2001.01385), [BSCE (balanced-softmax cross-entropy), NeurIPS 2020](https://papers.nips.cc/paper/2020/file/2ba61cc3a8f44143e1f2f13b2b729ab3-Paper.pdf), and support a smooth version of cost-sensitive cross-entropy (smooth CS_CE), which add a hyper-parameter $ \gamma$ to vanilla CS_CE. In smooth CS_CE, the loss weight of class i is defined as: $(\frac{N_{min}}{N_i})^\gamma$, where $\gamma \in [0, 1]$, $N_i$ is the number of images in class i. We can set $\gamma = 0.5$ to get a square-root version of CS_CE.
 - [x] `2021-01-11` - Add a mixup related method: [Remix, ECCV 2020 workshop](https://arxiv.org/abs/2007.03943).
-- [ ] Test and add the results of two-stage training in trick_gallery.md
-- [ ] Add the results of trick combinations.
+- [ ] `2021-01-30` - [50%] Test and add the results of two-stage training in trick_gallery.md
+- [ ] `2021-01-30` - [20%] Add the results of trick combinations.
 - [ ] Add the results of best bag of tricks on all long-tailed datasets.
 - [ ] Add more backbones in each long-tailed benchmark to exlpore the influence of network capacity.
 - [ ] Add trick family: `post-processing` and corresponding experiments, such as [$\tau$-normalization, ICLR 2020](https://openreview.net/forum?id=r1gRTCVFvB).

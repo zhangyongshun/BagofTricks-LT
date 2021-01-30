@@ -3,6 +3,8 @@ import torch.nn as nn
 from torch.nn import functional as F
 import numpy as np
 
+DEBUG = False
+
 class CrossEntropy(nn.Module):
     def __init__(self, para_dict=None):
         super(CrossEntropy, self).__init__()
@@ -36,7 +38,11 @@ class CrossEntropy(nn.Module):
         start = (epoch-1) // self.drw_start_epoch
         if start and self.drw:
             self.weight_list = torch.FloatTensor(np.array([min(self.num_class_list) / N for N in self.num_class_list])).to(self.device)
-
+        if DEBUG:
+            print('*'*100)
+            print(self.weight_list)
+            print(self.drw)
+            print('*'*100)
 
 class CrossEntropyLabelSmooth(CrossEntropy):
     r"""Cross entropy loss with label smoothing regularizer.
@@ -101,6 +107,25 @@ class FocalLoss(CrossEntropy):
         loss = (loss * weight.view(-1, 1)).sum() / inputs.shape[0]
         return loss
 
+    def update(self, epoch):
+        """
+        Args:
+            epoch: int. starting from 1.
+        """
+        if not self.drw:
+            self.weight_list = torch.FloatTensor(np.array([1 for _ in self.num_class_list])).to(self.device)
+        else:
+            start = (epoch-1) // self.drw_start_epoch
+            if start:
+                self.weight_list = torch.FloatTensor(np.array([min(self.num_class_list) / N for N in self.num_class_list])).to(self.device)
+            else:
+                self.weight_list = torch.FloatTensor(np.array([1 for _ in self.num_class_list])).to(self.device)
+        if DEBUG:
+            print('*'*100)
+            print(self.weight_list)
+            print(self.drw)
+            print('*'*100)
+
 class ClassBalanceCE(CrossEntropy):
     r"""
     Reference:
@@ -131,7 +156,11 @@ class ClassBalanceCE(CrossEntropy):
             start = (epoch-1) // self.drw_start_epoch
             if start:
                 self.weight_list = self.class_balanced_weight
-
+        if DEBUG:
+            print('*'*100)
+            print(self.weight_list)
+            print(self.drw)
+            print('*'*100)
 
 
 class ClassBalanceFocal(CrossEntropy):
@@ -183,7 +212,13 @@ class ClassBalanceFocal(CrossEntropy):
             start = (epoch-1) // self.drw_start_epoch
             if start:
                 self.weight_list = self.class_balanced_weight
-
+            else:
+                self.weight_list = torch.ones(self.class_balanced_weight.shape).to(self.device)
+        if DEBUG:
+            print('*'*100)
+            print(self.weight_list)
+            print(self.drw)
+            print('*'*100)
 
 class CostSensitiveCE(CrossEntropy):
     r"""
@@ -213,6 +248,11 @@ class CostSensitiveCE(CrossEntropy):
             start = (epoch-1) // self.drw_start_epoch
             if start:
                 self.weight_list = self.csce_weight
+        if DEBUG:
+            print('*'*100)
+            print(self.weight_list)
+            print(self.drw)
+            print('*'*100)
 
 class LDAMLoss(CrossEntropy):
     """
@@ -256,7 +296,11 @@ class LDAMLoss(CrossEntropy):
         per_cls_weights = (1.0 - self.betas[idx]) / (1.0 - np.power(self.betas[idx], self.num_class_list))
         per_cls_weights = per_cls_weights / np.sum(per_cls_weights) * len(self.num_class_list)
         self.weight_list = torch.FloatTensor(per_cls_weights).to(self.device)
-
+        if DEBUG:
+            print('*'*100)
+            print(self.weight_list)
+            print(self.drw)
+            print('*'*100)
         # print(self.weight_list)
         # print(self.m_list)
         # print(self.num_class_list)
@@ -363,7 +407,11 @@ class BalancedSoftmaxCE(CrossEntropy):
             start = (epoch-1) // self.drw_start_epoch
             if start:
                 self.weight_list = self.bsce_weight
-        # print(self.weight_list)
+        if DEBUG:
+            print('*'*100)
+            print(self.weight_list)
+            print(self.drw)
+            print('*'*100)
         # print(self.num_class_list)
         # print(self.num_classes)
         # print(self.drw)
@@ -408,6 +456,11 @@ class CDT(CrossEntropy):
             start = (epoch-1) // self.drw_start_epoch
             if start:
                 self.weight_list = self.cdt_weight
+        if DEBUG:
+            print('*'*100)
+            print(self.weight_list)
+            print(self.drw)
+            print('*'*100)
 
 
 
