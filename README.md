@@ -234,7 +234,7 @@ In this repo:
 #### Parallel training with DataParallel 
 
 ```bash
-1, To train/valid
+1, To train
 # To train long-tailed CIFAR-10 with imbalanced ratio of 50. 
 # `GPUs` are the GPUs you want to use, such as `0,4`.
 bash data_parallel_train.sh configs/test/data_parallel.yaml GPUs
@@ -245,7 +245,7 @@ bash data_parallel_train.sh configs/test/data_parallel.yaml GPUs
 1, Change the NCCL_SOCKET_IFNAME in run_with_distributed_parallel.sh to [your own socket name]. 
 export NCCL_SOCKET_IFNAME = [your own socket name]
 
-2, To train/valid
+2, To train
 # To train long-tailed CIFAR-10 with imbalanced ratio of 50. 
 # `GPUs` are the GPUs you want to use, such as `0,1,4`.
 # `NUM_GPUs` are the number of GPUs you want to use. If you set `GPUs` to `0,1,4`, then `NUM_GPUs` should be `3`.
