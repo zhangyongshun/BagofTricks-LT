@@ -31,7 +31,6 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 - [ ] Add the results of best bag of tricks on all long-tailed datasets.
 - [ ] Add more backbones in each long-tailed benchmark to exlpore the influence of network capacity.
 - [ ] Add trick family: `post-processing` and corresponding experiments, such as [$\tau$-normalization, ICLR 2020](https://openreview.net/forum?id=r1gRTCVFvB).
-- [ ] Update the version of PyTorch to >=1.6, and use torch.cuda.amp instead of apex provided by Nividia.
 
 ## Trick gallery and combinations
 
@@ -185,7 +184,7 @@ Here is an example.
      2. Run tools/convert_from_tfrecords, and the converted CIFAR-LT and corresponding jsons will be generated at `/downloaded/converted/`.
 
   ```bash
-  # Convert from the original format of iNaturalist
+  # Convert from the original format of CIFAR-LT
   python tools/convert_from_tfrecords.py  --input_path /downloaded/data/ --out_path /downloaded/converted/
   ```
 
@@ -200,7 +199,7 @@ Here is an example.
   3. Run tools/convert_from_ImageNet.py, and you will get two jsons: `ImageNet_LT_train.json` and `ImageNet_LT_val.json`.
 
   ```bash
-  # Convert from the original format of iNaturalist
+  # Convert from the original format of ImageNet-LT
   python tools/convert_from_ImageNet.py --input_path /downloaded/ImageNet-LT/ --image_path /downloaed/ImageNet/ --output_path ./
   ```
 
@@ -235,9 +234,7 @@ In this repo:
 #### Parallel training with DataParallel 
 
 ```bash
-1, Change the NCCL_SOCKET_IFNAME in run_with_distributed_parallel.sh to your own socket name. 
-
-2, To train/valid
+1, To train/valid
 # To train long-tailed CIFAR-10 with imbalanced ratio of 50. 
 # `GPUs` are the GPUs you want to use, such as `0,4`.
 bash data_parallel_train.sh configs/test/data_parallel.yaml GPUs
@@ -245,8 +242,8 @@ bash data_parallel_train.sh configs/test/data_parallel.yaml GPUs
 
 #### Distributed training with DistributedDataParallel 
 ```bash
-1, Change the NCCL_SOCKET_IFNAME in run_with_distributed_parallel.sh to your own socket name. 
-export NCCL_SOCKET_IFNAME = your own socket name
+1, Change the NCCL_SOCKET_IFNAME in run_with_distributed_parallel.sh to [your own socket name]. 
+export NCCL_SOCKET_IFNAME = [your own socket name]
 
 2, To train/valid
 # To train long-tailed CIFAR-10 with imbalanced ratio of 50. 
