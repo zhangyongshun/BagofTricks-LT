@@ -91,8 +91,7 @@ class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
             self.class_dict, self.origin_class_dict = self._get_class_dict()
 
     def update(self, epoch):
-        self.epoch = epoch
-        print('epoch in dataset', self.epoch)
+        self.epoch = max(0, epoch-self.cfg.TRAIN.TWO_STAGE.START_EPOCH) if self.cfg.TRAIN.TWO_STAGE.DRS else epoch
         if self.cfg.TRAIN.SAMPLER.WEIGHTED_SAMPLER.TYPE == "progressive":
             self.progress_p = epoch/self.cfg.TRAIN.MAX_EPOCH * self.class_p + (1-epoch/self.cfg.TRAIN.MAX_EPOCH)*self.instance_p
             print('self.progress_p', self.progress_p)
@@ -105,7 +104,8 @@ class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
         Returns:
             tuple: (image, target) where target is index of the target class.
         """
-        if self.cfg.TRAIN.SAMPLER.TYPE == "weighted sampler" and self.train:
+        if self.cfg.TRAIN.SAMPLER.TYPE == "weighted sampler" and self.train\
+            and (not self.cfg.TRAIN.TWO_STAGE.DRS or (self.cfg.TRAIN.TWO_STAGE.DRS and self.epoch)):
             assert self.cfg.TRAIN.SAMPLER.WEIGHTED_SAMPLER.TYPE in ["balance", 'square', 'progressive']
             if self.cfg.TRAIN.SAMPLER.WEIGHTED_SAMPLER.TYPE == "balance":
                 sample_class = random.randint(0, self.cls_num - 1)

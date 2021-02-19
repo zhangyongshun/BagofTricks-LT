@@ -58,7 +58,7 @@ class BaseSet(Dataset):
             self.class_dict = self._get_class_dict()
 
     def update(self, epoch):
-        self.epoch = epoch
+        self.epoch = max(0, epoch-self.cfg.TRAIN.TWO_STAGE.START_EPOCH) if self.cfg.TRAIN.TWO_STAGE.DRS else epoch
         if self.cfg.TRAIN.SAMPLER.WEIGHTED_SAMPLER.TYPE == "progressive":
             self.progress_p = epoch/self.cfg.TRAIN.MAX_EPOCH * self.class_p + (1-epoch/self.cfg.TRAIN.MAX_EPOCH)*self.instance_p
             print('self.progress_p', self.progress_p)
@@ -100,7 +100,7 @@ class BaseSet(Dataset):
         return self.all_info['annotations']
 
     def __len__(self):
-        return len(self.data)
+        return len(self.all_info['annotations'])
 
     def imread_with_retry(self, fpath):
         retry_time = 10

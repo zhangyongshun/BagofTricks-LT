@@ -1,4 +1,4 @@
-NAME: 'class_balance_sampling'
+NAME: 'cam-cbs-drs'
 OUTPUT_DIR: './output/cifar10_im50/'
 SHOW_STEP: 100
 SAVE_STEP: 5
@@ -10,6 +10,13 @@ DATASET:
   DATASET: 'CIFAR'
   TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance50_train.json'
   VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance50_valid.json'
+  USE_CAM_BASED_DATASET: True
+  CAM_DATA_JSON_SAVE_PATH: './output/cifar10_im50_CAM.json'
+
+NETWORK:
+  PRETRAINED:  True
+  PRETRAINED_MODEL: './output/cifar10_im50/first_stage/models/2021-02-19-11-57/epoch_160.pth'
+
 
 BACKBONE:
   TYPE: 'res32_cifar'
@@ -26,18 +33,18 @@ LOSS:
 
 TRAIN:
   BATCH_SIZE: 128
-  MAX_EPOCH: 200
+  MAX_EPOCH: 40
   NUM_WORKERS: 16
   COMBINER:
     TYPE: 'default'
   OPTIMIZER:
     TYPE: 'SGD'
-    BASE_LR: 0.1
+    BASE_LR: 0.001
     MOMENTUM: 0.9
     WEIGHT_DECAY: 2e-4
   LR_SCHEDULER:
-    TYPE: 'warmup'
-    LR_STEP: [160, 180]
+    TYPE: 'multistep'
+    LR_STEP: [20]
     LR_FACTOR: 0.01
     WARM_EPOCH: 5
   TENSORBOARD:

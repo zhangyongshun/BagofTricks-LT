@@ -1,4 +1,4 @@
-NAME: 'class_balance_sampling'
+NAME: 'cam_generation'
 OUTPUT_DIR: './output/cifar10_im50/'
 SHOW_STEP: 100
 SAVE_STEP: 5
@@ -10,6 +10,13 @@ DATASET:
   DATASET: 'CIFAR'
   TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance50_train.json'
   VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance50_valid.json'
+  GENERATE_CAM_BASED_DATASET: True
+  CAM_DATA_JSON_SAVE_PATH: './output/cifar10_im50_CAM.json'
+  CAM_DATA_SAVE_PATH: '/mnt/ramdisk/CIFAR-LT/CAM/cifar10_im50'
+
+NETWORK:
+  PRETRAINED:  True
+  PRETRAINED_MODEL: './output/cifar10_im50/first_stage/models/2021-02-19-11-57/best_model.pth'
 
 BACKBONE:
   TYPE: 'res32_cifar'
@@ -26,7 +33,7 @@ LOSS:
 
 TRAIN:
   BATCH_SIZE: 128
-  MAX_EPOCH: 200
+  MAX_EPOCH: 160
   NUM_WORKERS: 16
   COMBINER:
     TYPE: 'default'
@@ -43,9 +50,7 @@ TRAIN:
   TENSORBOARD:
     ENABLE: True
   SAMPLER:
-    TYPE: 'weighted sampler'
-    WEIGHTED_SAMPLER:
-      TYPE: 'balance'
+    TYPE: 'default'
 
   DISTRIBUTED: False
   SYNCBN: True

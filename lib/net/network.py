@@ -7,6 +7,7 @@ from modules import GAP, FCNorm, Identity
 import copy
 import numpy as np
 import cv2
+import os
 
 class Network(nn.Module):
     def __init__(self, cfg, mode="train", num_classes=1000):
@@ -31,6 +32,11 @@ class Network(nn.Module):
         self.module = self._get_module()
         self.classifier = self._get_classifer()
 
+        if cfg.NETWORK.PRETRAINED and os.path.isfile(cfg.NETWORK.PRETRAINED_MODEL):
+            try:
+                self.load_model(cfg.NETWORK.PRETRAINED_MODEL)
+            except:
+                raise ValueError('network pretrained model error')
 
     def forward(self, x, **kwargs):
         if "feature_flag" in kwargs or "feature_cb" in kwargs or "feature_rb" in kwargs:
@@ -149,12 +155,12 @@ class Network(nn.Module):
     def cam_params_reset(self):
         self.classifier_weights = np.squeeze(list(self.classifier.parameters())[0].detach().cpu().numpy())
 
-    def get_CAM_with_groundtruth(self, image_idxs, dataset, size):
+    def get_CAM_with_groundtruth(self, image_idxs, dataset, label_list, size):
         ret_cam = []
         size_upsample = size
         for i in range(len(image_idxs)):
             idx = image_idxs[i]
-            label = dataset.label_list[idx]
+            label = label_list[idx]
             self.eval()
             with torch.no_grad():
                 img = dataset._get_trans_image(idx)

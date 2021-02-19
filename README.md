@@ -13,7 +13,6 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 
 * The tricks will be **constantly updated**. If you have or need any long-tail related trick newly proposed, 
   please to [open an issue](https://github.com/zhangyongshun/BagofTricks-LT/issues) or [pull requests](https://github.com/zhangyongshun/BagofTricks-LT/pulls). Make sure to attach the results in corresponding md files if you pull a request with a new trick.
-* Codes are based on [Megvii-Nanjing/BBN](https://github.com/Megvii-Nanjing/BBN). Welcome to [find a job or an intern position](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/documents/MRN_jobs.jpg) in Megvii Research Nanjing.
 * For any problem, such as bugs, feel free to [open an issue](https://github.com/zhangyongshun/BagofTricks-LT/issues).
 
 <!--<><summary> <b>TODO LIST</b> </summary></details>-->
@@ -26,7 +25,7 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 - [x] `2021-01-05` - Add [SEQL (softmax equalization loss), CVPR 2020](https://arxiv.org/abs/2003.05176).
 - [x] `2021-01-10` - Add [CDT (class-dependent temparature), arXiv 2020](https://arxiv.org/abs/2001.01385), [BSCE (balanced-softmax cross-entropy), NeurIPS 2020](https://papers.nips.cc/paper/2020/file/2ba61cc3a8f44143e1f2f13b2b729ab3-Paper.pdf), and support a smooth version of cost-sensitive cross-entropy (smooth CS_CE), which add a hyper-parameter $ \gamma$ to vanilla CS_CE. In smooth CS_CE, the loss weight of class i is defined as: $(\frac{N_{min}}{N_i})^\gamma$, where $\gamma \in [0, 1]$, $N_i$ is the number of images in class i. We can set $\gamma = 0.5$ to get a square-root version of CS_CE.
 - [x] `2021-01-11` - Add a mixup related method: [Remix, ECCV 2020 workshop](https://arxiv.org/abs/2007.03943).
-- [ ] `2021-01-30` - [50%] Test and add the results of two-stage training in trick_gallery.md
+- [x] `2021-01-30` - Test and add the results of two-stage training in trick_gallery.md
 - [ ] `2021-01-30` - [20%] Add the results of trick combinations.
 - [ ] Add the results of best bag of tricks on all long-tailed datasets.
 - [ ] Add more backbones in each long-tailed benchmark to exlpore the influence of network capacity.
@@ -62,13 +61,13 @@ tensorflow >= 1.14.0 #convert long-tailed cifar datasets from tfrecords to jpgs
 Python 3
 apex
 ```
-- We provide the detailed requirements in [environment.yaml](https://github.com/zhangyongshun/BagofTricks-LT/blob/ace03362ff7041e6ef4e3bbe8728acfe76fac96e/documents/environment.yaml). You can run `conda env create -f environment.yaml` to create the same running environment as ours.
+- We provide the detailed requirements in [requirements.txt](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/requirements.txt). You can run `pip install requirements.txt` to create the same running environment as ours.
 - The [apex](https://github.com/NVIDIA/apex) **must be installed**:
 ```bash 
-pip3 install -U pip3
+pip install -U pip
 git clone https://github.com/NVIDIA/apex
 cd apex
-pip3 install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
+pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
 ```
 
 ## Prepare datasets

@@ -1,15 +1,16 @@
-NAME: 'class_balance_sampling'
-OUTPUT_DIR: './output/cifar10_im50/'
+NAME: 'first_stage'
+OUTPUT_DIR: './output/cifar100_im50'
 SHOW_STEP: 100
 SAVE_STEP: 5
 VALID_STEP: 1
 INPUT_SIZE: (32, 32)
 COLOR_SPACE: 'RGB'
 
+
 DATASET:
   DATASET: 'CIFAR'
-  TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance50_train.json'
-  VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance50_valid.json'
+  TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar100_imbalance50_train.json'
+  VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar100_imbalance50_valid.json'
 
 BACKBONE:
   TYPE: 'res32_cifar'
@@ -26,7 +27,7 @@ LOSS:
 
 TRAIN:
   BATCH_SIZE: 128
-  MAX_EPOCH: 200
+  MAX_EPOCH: 160
   NUM_WORKERS: 16
   COMBINER:
     TYPE: 'default'
@@ -43,9 +44,7 @@ TRAIN:
   TENSORBOARD:
     ENABLE: True
   SAMPLER:
-    TYPE: 'weighted sampler'
-    WEIGHTED_SAMPLER:
-      TYPE: 'balance'
+    TYPE: 'default'
 
   DISTRIBUTED: False
   SYNCBN: True

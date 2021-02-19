@@ -11,7 +11,9 @@ class CIFAR(BaseSet):
 
 
     def __getitem__(self, index):
-        if self.cfg.TRAIN.SAMPLER.TYPE == "weighted sampler" and self.mode == 'train':
+        if self.cfg.TRAIN.SAMPLER.TYPE == "weighted sampler" \
+                and self.mode == 'train' \
+                and (not self.cfg.TRAIN.TWO_STAGE.DRS or (self.cfg.TRAIN.TWO_STAGE.DRS and self.epoch)):
             assert self.cfg.TRAIN.SAMPLER.WEIGHTED_SAMPLER.TYPE in ["balance", 'square', 'progressive']
             if self.cfg.TRAIN.SAMPLER.WEIGHTED_SAMPLER.TYPE == "balance":
                 sample_class = random.randint(0, self.num_classes - 1)

@@ -1,15 +1,16 @@
-NAME: 'class_balance_sampling'
-OUTPUT_DIR: './output/cifar10_im50/'
+NAME: 'cbs-drs'
+OUTPUT_DIR: './output/cifar10_im100'
 SHOW_STEP: 100
 SAVE_STEP: 5
 VALID_STEP: 1
 INPUT_SIZE: (32, 32)
 COLOR_SPACE: 'RGB'
 
+
 DATASET:
   DATASET: 'CIFAR'
-  TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance50_train.json'
-  VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance50_valid.json'
+  TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance100_train.json'
+  VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance100_valid.json'
 
 BACKBONE:
   TYPE: 'res32_cifar'
@@ -25,6 +26,11 @@ LOSS:
   LOSS_TYPE: 'CrossEntropy'
 
 TRAIN:
+
+  TWO_STAGE:
+    DRS: True
+    START_EPOCH: 160
+
   BATCH_SIZE: 128
   MAX_EPOCH: 200
   NUM_WORKERS: 16

@@ -19,11 +19,11 @@ def cam_based_sampling(dataset, model, cfg):
     annotations = dataset.get_annotations()
     num_classes = dataset.get_num_classes()
     #reset networks' feature_blobs
-    model.module.cam_params_reset()
+    model.cam_params_reset()
 
     generate_index = 0
 
-    num_list, cat_list = get_category_list(annotations, num_classes, cfg)
+    num_list, cat_list = get_category_list(annotations, num_classes)
 
     if not os.path.isdir(cfg.DATASET.CAM_DATA_SAVE_PATH):
         os.makedirs(cfg.DATASET.CAM_DATA_SAVE_PATH)
@@ -77,7 +77,7 @@ def cam_based_sampling(dataset, model, cfg):
             new_image_index = np.random.choice(label_index_gallery[i])
             origin_img = dataset._get_image(dataset.data[new_image_index])
             h, w, _ = origin_img.shape
-            cam_groundtruth = model.module.get_CAM_with_groundtruth([new_image_index], dataset, (w, h))
+            cam_groundtruth = model.get_CAM_with_groundtruth([new_image_index], dataset, label_list, (w, h))
             cam_groundtruth_mean = np.mean(cam_groundtruth[0])*3/4.0
             ignored_index = np.where(cam_groundtruth[0]<cam_groundtruth_mean)
 
@@ -174,7 +174,7 @@ def cam_based_sampling(dataset, model, cfg):
                 'im_shape': (h, w, c)
             })
             generate_index += 1
-            label_list.append(dataset.label_list[new_image_index])
+            label_list.append(label_list[new_image_index])
 
     import json
     json.dump(dataset.data, open(cfg.DATASET.CAM_DATA_JSON_SAVE_PATH , 'w'))

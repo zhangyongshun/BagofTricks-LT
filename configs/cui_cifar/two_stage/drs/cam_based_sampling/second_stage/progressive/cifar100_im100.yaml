@@ -1,15 +1,23 @@
-NAME: 'class_balance_sampling'
-OUTPUT_DIR: './output/cifar10_im50/'
+NAME: 'cam-pbs-drs'
+OUTPUT_DIR: './output/cifar100_im100'
 SHOW_STEP: 100
 SAVE_STEP: 5
 VALID_STEP: 1
 INPUT_SIZE: (32, 32)
 COLOR_SPACE: 'RGB'
 
+
 DATASET:
   DATASET: 'CIFAR'
-  TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance50_train.json'
-  VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance50_valid.json'
+  TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar100_imbalance100_train.json'
+  VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar100_imbalance100_valid.json'
+  USE_CAM_BASED_DATASET: True
+  CAM_DATA_JSON_SAVE_PATH: './output/cifar100_im100_CAM.json'
+
+NETWORK:
+  PRETRAINED:  True
+  PRETRAINED_MODEL: './output/cifar100_im100/first_stage/models/2021-02-19-11-58/epoch_160.pth'
+
 
 BACKBONE:
   TYPE: 'res32_cifar'
@@ -26,18 +34,18 @@ LOSS:
 
 TRAIN:
   BATCH_SIZE: 128
-  MAX_EPOCH: 200
+  MAX_EPOCH: 40
   NUM_WORKERS: 16
   COMBINER:
     TYPE: 'default'
   OPTIMIZER:
     TYPE: 'SGD'
-    BASE_LR: 0.1
+    BASE_LR: 0.001
     MOMENTUM: 0.9
     WEIGHT_DECAY: 2e-4
   LR_SCHEDULER:
     TYPE: 'warmup'
-    LR_STEP: [160, 180]
+    LR_STEP: [20]
     LR_FACTOR: 0.01
     WARM_EPOCH: 5
   TENSORBOARD:
@@ -45,7 +53,7 @@ TRAIN:
   SAMPLER:
     TYPE: 'weighted sampler'
     WEIGHTED_SAMPLER:
-      TYPE: 'balance'
+      TYPE: 'progressive'
 
   DISTRIBUTED: False
   SYNCBN: True

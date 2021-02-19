@@ -1,4 +1,4 @@
-NAME: 'class_balance_sampling'
+NAME: 'first_stage'
 OUTPUT_DIR: './output/cifar10_im50/'
 SHOW_STEP: 100
 SAVE_STEP: 5
@@ -26,7 +26,7 @@ LOSS:
 
 TRAIN:
   BATCH_SIZE: 128
-  MAX_EPOCH: 200
+  MAX_EPOCH: 160
   NUM_WORKERS: 16
   COMBINER:
     TYPE: 'default'
@@ -43,9 +43,7 @@ TRAIN:
   TENSORBOARD:
     ENABLE: True
   SAMPLER:
-    TYPE: 'weighted sampler'
-    WEIGHTED_SAMPLER:
-      TYPE: 'balance'
+    TYPE: 'default'
 
   DISTRIBUTED: False
   SYNCBN: True
