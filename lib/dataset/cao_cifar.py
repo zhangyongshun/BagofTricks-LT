@@ -75,8 +75,6 @@ class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
             self.class_weight, self.sum_weight = self.get_weight(self.get_annotations(), self.cls_num)
             self.class_dict = self._get_class_dict()
 
-
-
             print('-'*20+'in imbalance cifar dataset'+'-'*20)
             print('class_dict is: ')
             print(self.class_dict)
@@ -88,7 +86,7 @@ class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
             self.class_p = np.array([1/self.cls_num for _ in num_list])
             num_list = [math.sqrt(num) for num in num_list]
             self.square_p = np.array([num / sum(num_list) for num in num_list])
-            self.class_dict, self.origin_class_dict = self._get_class_dict()
+            self.class_dict = self._get_class_dict()
 
     def update(self, epoch):
         self.epoch = max(0, epoch-self.cfg.TRAIN.TWO_STAGE.START_EPOCH) if self.cfg.TRAIN.TWO_STAGE.DRS else epoch
