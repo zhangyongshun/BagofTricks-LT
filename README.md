@@ -26,7 +26,7 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 - [x] `2021-02-19` - Test and add the results of two-stage training in trick_gallery.md
 - [x] `2021-01-30` - Add the results of combining mixup methods and re-balancing in [trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md).
 - [x] `2021-04-22` - Add one option (TRAIN.APEX) in [config.py](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/config/default.py), so you can set TRAIN.APEX to False for training without using apex.
-- [x] `2021-04-23` - Add CrossEntropyLabelAwareSmooth[label-aware smoothing, CVPR 2021](https://arxiv.org/abs/2104.00466) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md).
+- [x] `2021-04-23` - Add CrossEntropyLabelAwareSmooth ([label-aware smoothing, CVPR 2021](https://arxiv.org/abs/2104.00466)) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md).
 - [ ] `2021-04-24` - [33%] Add [classifier-balancing](https://openreview.net/forum?id=r1gRTCVFvB) and corresponding experiments in Two-stage training in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), including $\tau$-normalization, cRT and LWS.
 
 ## Trick gallery and combinations
