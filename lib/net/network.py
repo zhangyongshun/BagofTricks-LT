@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from backbone import (res32_cifar, res50, res10)
-from modules import GAP, FCNorm, Identity
+from modules import GAP, FCNorm, Identity, LWS, cRT
 import copy
 import numpy as np
 import cv2
@@ -98,7 +98,7 @@ class Network(nn.Module):
         print("Backbone model has been loaded...")
 
 
-    def load_model(self, model_path):
+    def load_model(self, model_path, tau_norm=False, tau=1):
         pretrain_dict = torch.load(
             model_path, map_location="cuda"
         )
@@ -108,9 +108,18 @@ class Network(nn.Module):
         new_dict = OrderedDict()
         for k, v in pretrain_dict.items():
             if k.startswith("module"):
-                new_dict[k[7:]] = v
-            else:
-                new_dict[k] = v
+                k = k[7:]
+            if  k == 'classifier.weight':
+                if tau_norm:
+                    print('*-*'*30)
+                    print('Using tau-normalization')
+                    print('*-*'*30)
+                    v = v / torch.pow(torch.norm(v, 2, 1, keepdim=True), tau)
+                # if self.cfg.CLASSIFIER.TYPE == "cRT":
+                #
+                # elif self.cfg.CLASSIFIER.TYPE == "LWS"
+            new_dict[k] = v
+
         model_dict.update(new_dict)
         self.load_state_dict(model_dict)
         print("All model has been loaded...")
@@ -146,6 +155,10 @@ class Network(nn.Module):
             classifier = FCNorm(num_features, self.num_classes)
         elif self.cfg.CLASSIFIER.TYPE == "FC":
             classifier = nn.Linear(num_features, self.num_classes, bias=bias_flag)
+        elif self.cfg.CLASSIFIER.TYPE == "cRT":
+            classifier = cRT(num_features, self.num_classes)
+        elif self.cfg.CLASSIFIER.TYPE == "LWS":
+            classifier = LWS(num_features, self.num_classes)
         else:
             raise NotImplementedError
 

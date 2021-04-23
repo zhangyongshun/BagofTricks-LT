@@ -9,8 +9,8 @@ COLOR_SPACE: 'RGB'
 
 DATASET:
   DATASET: 'CIFAR'
-  TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar100_imbalance50/cifar100_imbalance50_train.json'
-  VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar100_imbalance50/cifar100_imbalance50_valid.json'
+  TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar100_imbalance50_train.json'
+  VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar100_imbalance50_valid.json'
 
 BACKBONE:
   TYPE: 'res32_cifar'
@@ -47,6 +47,7 @@ TRAIN:
     TYPE: 'default'
 
   DISTRIBUTED: False
+  APEX: False
   SYNCBN: True
 
 TRANSFORMS:

@@ -26,11 +26,15 @@ import torch.backends.cudnn as cudnn
 import ast
 from datetime import datetime
 
-import apex
-from apex.parallel import DistributedDataParallel as DDP
-from apex.fp16_utils import *
-from apex import amp, optimizers
-from apex.multi_tensor_apply import multi_tensor_applier
+try:
+    import apex
+    from apex.parallel import DistributedDataParallel as DDP
+    from apex.fp16_utils import *
+    from apex import amp, optimizers
+    from apex.multi_tensor_apply import multi_tensor_applier
+except:
+    pass
+
 import random
 import numpy as np
 
@@ -168,14 +172,18 @@ if __name__ == "__main__":
         exit(0)
 
     opt_level = 'O1'
+    use_apex = True
     if cfg.TRAIN.DISTRIBUTED:
         model = model.cuda()
         model = apex.parallel.convert_syncbn_model(model)
         model, optimizer = amp.initialize(model, optimizer, opt_level=opt_level)
         model = DDP(model, delay_allreduce=True)
-    else:
+    elif cfg.TRAIN.APEX:
         model, optimizer = amp.initialize(model, optimizer, opt_level=opt_level)
         model = torch.nn.DataParallel(model)
+    else:
+        model = torch.nn.DataParallel(model)
+        use_apex = False
     # ----- END MODEL BUILDER -----
 
     if cfg.TRAIN.DISTRIBUTED:
@@ -246,7 +254,7 @@ if __name__ == "__main__":
         if cfg.RESUME_MODE != "state_dict":
             optimizer.load_state_dict(checkpoint['optimizer'])
             scheduler.load_state_dict(checkpoint['scheduler'])
-            amp.load_state_dict(checkpoint['amp'])
+            if use_apex: amp.load_state_dict(checkpoint['amp'])
             start_epoch = checkpoint['epoch'] + 1
             best_result = checkpoint['best_result']
             best_epoch = checkpoint['best_epoch']
@@ -276,6 +284,7 @@ if __name__ == "__main__":
             logger,
             writer=writer,
             rank=local_rank,
+            use_apex=use_apex
         )
         model_save_path = os.path.join(
             model_dir,
@@ -289,7 +298,7 @@ if __name__ == "__main__":
                 'best_epoch': best_epoch,
                 'scheduler': scheduler.state_dict(),
                 'optimizer': optimizer.state_dict(),
-                'amp': amp.state_dict()
+                'amp': amp.state_dict() if use_apex else {}
             }, model_save_path)
 
         loss_dict, acc_dict = {"train_loss": train_loss}, {"train_acc": train_acc}
@@ -308,7 +317,7 @@ if __name__ == "__main__":
                         'best_epoch': best_epoch,
                         'scheduler': scheduler.state_dict(),
                         'optimizer': optimizer.state_dict(),
-                        'amp': amp.state_dict()
+                        'amp': amp.state_dict() if use_apex else {}
                 }, os.path.join(model_dir, "best_model.pth")
                 )
             if rank == 0:

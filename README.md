@@ -6,8 +6,6 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 
 #### Trick gallery:  ***[trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md)***
 
-#### Trick combinations: *[trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md)*
-
 
 
 
@@ -26,10 +24,10 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 - [x] `2021-01-10` - Add [CDT (class-dependent temparature), arXiv 2020](https://arxiv.org/abs/2001.01385), [BSCE (balanced-softmax cross-entropy), NeurIPS 2020](https://papers.nips.cc/paper/2020/file/2ba61cc3a8f44143e1f2f13b2b729ab3-Paper.pdf), and support a smooth version of cost-sensitive cross-entropy (smooth CS_CE), which add a hyper-parameter $ \gamma$ to vanilla CS_CE. In smooth CS_CE, the loss weight of class i is defined as: $(\frac{N_{min}}{N_i})^\gamma$, where $\gamma \in [0, 1]$, $N_i$ is the number of images in class i. We can set $\gamma = 0.5$ to get a square-root version of CS_CE.
 - [x] `2021-01-11` - Add a mixup related method: [Remix, ECCV 2020 workshop](https://arxiv.org/abs/2007.03943).
 - [x] `2021-02-19` - Test and add the results of two-stage training in trick_gallery.md
-- [ ] `2021-01-30` - [20%] Add the results of trick combinations.
-- [ ] Add the results of best bag of tricks on all long-tailed datasets.
-- [ ] Add more backbones in each long-tailed benchmark to exlpore the influence of network capacity.
-- [ ] Add trick family: `post-processing` and corresponding experiments, such as [$\tau$-normalization, ICLR 2020](https://openreview.net/forum?id=r1gRTCVFvB).
+- [x] `2021-01-30` - Add the results of combining mixup methods and re-balancing in [trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md).
+- [x] `2021-04-22` - Add one option (TRAIN.APEX) in [config.py](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/config/default.py), so you can set TRAIN.APEX to False for training without using apex.
+- [x] `2021-04-23` - Add CrossEntropyLabelAwareSmooth[label-aware smoothing, CVPR 2021](https://arxiv.org/abs/2104.00466) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md).
+- [ ] `2021-04-24` - [33%] Add [classifier-balancing](https://openreview.net/forum?id=r1gRTCVFvB) and corresponding experiments in Two-stage training in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), including $\tau$-normalization, cRT and LWS.
 
 ## Trick gallery and combinations
 
@@ -62,14 +60,14 @@ Python 3
 apex
 ```
 - We provide the detailed requirements in [requirements.txt](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/requirements.txt). You can run `pip install requirements.txt` to create the same running environment as ours.
-- The [apex](https://github.com/NVIDIA/apex) **must be installed**:
+- The [apex](https://github.com/NVIDIA/apex) **is recommended to be installed for saving GPU memories**:
 ```bash 
 pip install -U pip
 git clone https://github.com/NVIDIA/apex
 cd apex
 pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
 ```
-
+- If you haven't installed the apex, please set the `TRAIN.APEX` to `False` in your yaml files before training. **Besides, if the apex is not installed, the `Distributed training with DistributedDataParallel` in our codes cannot be used.**
 ## Prepare datasets
 
 We provide three datasets in this repo: long-tailed CIFAR (CIFAR-LT), long-tailed ImageNet (ImageNet-LT), and iNaturalist 2018 (iNat18). 
@@ -251,7 +249,7 @@ export NCCL_SOCKET_IFNAME = [your own socket name]
 bash distributed_data_parallel_train.sh configs/test/distributed_data_parallel.yaml NUM_GPUs GPUs
 ```
 
-## Baseline results
+## The comparison between the baseline results using our codes and the references [<a href="https://arxiv.org/abs/1901.05555">Cui</a>, <a href="https://arxiv.org/abs/1910.09217">Cao</a>]
 
 - We use **Top-1 error rates** as our evaluation metric.
 
@@ -300,7 +298,7 @@ bash distributed_data_parallel_train.sh configs/test/distributed_data_parallel.y
     <th align="center" style="font-weight:normal" >ResNet-50</td>
   </tr>
   <tr>
-    <th align="left" style="font-weight:normal"><details><summary>Baseline</summary>
+    <th align="left" style="font-weight:normal"><details><summary>Baselines using our codes</summary>
       <ol>
       <li>CONFIG (from left to right): 
         <ul>
@@ -330,7 +328,7 @@ bash distributed_data_parallel_train.sh configs/test/distributed_data_parallel.y
     <th align="center" style="font-weight:normal">40.55</td>
   </tr>
   <tr>
-    <th align="left" style="font-weight:normal">Reference (<a href="https://arxiv.org/abs/1901.05555">Cui</a>;<a href="https://arxiv.org/abs/1910.09217">Cao</a>; <a href="https://arxiv.org/abs/1904.05160">Liu</a.>)</td>
+    <th align="left" style="font-weight:normal">Reference [<a href="https://arxiv.org/abs/1901.05555">Cui</a>, <a href="https://arxiv.org/abs/1910.09217">Cao</a>, <a href="https://arxiv.org/abs/1904.05160">Liu</a>]</td>
     <th align="center" style="font-weight:normal">29.64</td>
     <th align="center" style="font-weight:normal">25.19</td>
     <th align="center" style="font-weight:normal">61.68</td>
@@ -358,7 +356,6 @@ bash distributed_data_parallel_train.sh configs/test/distributed_data_parallel.y
 }
 ```
 
-- *pages need to be added.*
 
 ## Contacts
 

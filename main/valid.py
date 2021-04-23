@@ -44,7 +44,9 @@ def valid_model(dataLoader, model, cfg, device, num_classes):
         FusionMatrix(num_classes),
     )
 
-    func = torch.nn.Softmax(dim=1)
+    func = torch.nn.Sigmoid() \
+        if cfg.LOSS.LOSS_TYPE in ['FocalLoss', 'ClassBalanceFocal'] else \
+        torch.nn.Softmax(dim=1)
 
     with torch.no_grad():
         for i, (image, image_labels, meta) in enumerate(dataLoader):
@@ -84,7 +86,7 @@ def valid_model(dataLoader, model, cfg, device, num_classes):
     )
     pbar.close()
     fig = fusion_matrix.plot_confusion_matrix()
-    plt.savefig('confusion_matrix.png', fig)
+    plt.savefig('confusion_matrix.png')
 
 
 if __name__ == "__main__":
@@ -96,13 +98,8 @@ if __name__ == "__main__":
     device = torch.device("cuda")
     model = Network(cfg, mode="test", num_classes=num_classes)
 
-    model_dir = os.path.join(cfg.OUTPUT_DIR, cfg.NAME, "models")
     model_file = cfg.TEST.MODEL_FILE
-    if "/" in model_file:
-        model_path = model_file
-    else:
-        model_path = os.path.join(model_dir, model_file)
-    model.load_model(model_path)
+    model.load_model(model_file, tau_norm=cfg.TEST.TAU_NORM.USE_TAU_NORM, tau=cfg.TEST.TAU_NORM.TAU)
 
     model = torch.nn.DataParallel(model).cuda()
 

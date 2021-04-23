@@ -5,11 +5,14 @@ import os
 import torch
 from utils.lr_scheduler import WarmupMultiStepLR
 from net import Network
-from apex.parallel import DistributedDataParallel as DDP
-from apex.fp16_utils import *
-from apex import amp, optimizers
-from apex.multi_tensor_apply import multi_tensor_applier
-import apex
+try:
+    from apex.parallel import DistributedDataParallel as DDP
+    from apex.fp16_utils import *
+    from apex import amp, optimizers
+    from apex.multi_tensor_apply import multi_tensor_applier
+    import apex
+except:
+    pass
 import numpy as np
 
 

@@ -6,14 +6,17 @@ import torch
 import torch.distributed as dist
 import time
 from tqdm import tqdm
-from apex.parallel import DistributedDataParallel as DDP
-from apex.fp16_utils import *
-from apex import amp, optimizers
-from apex.multi_tensor_apply import multi_tensor_applier
+try:
+    from apex.parallel import DistributedDataParallel as DDP
+    from apex.fp16_utils import *
+    from apex import amp, optimizers
+    from apex.multi_tensor_apply import multi_tensor_applier
+except:
+    pass
 import os
 
 def train_model(
-    trainLoader, model, epoch, epoch_number, optimizer, combiner, criterion, cfg, logger, rank=0, **kwargs
+    trainLoader, model, epoch, epoch_number, optimizer, combiner, criterion, cfg, logger, rank=0, use_apex=True, **kwargs
 ):
     if cfg.EVAL_MODE:
         model.eval()
@@ -36,8 +39,11 @@ def train_model(
 
         optimizer.zero_grad()
 
-        with amp.scale_loss(loss, optimizer) as scaled_loss:
+        if use_apex:
+            with amp.scale_loss(loss, optimizer) as scaled_loss:
                 scaled_loss.backward()
+        else:
+            loss.backward()
 
         optimizer.step()
         all_loss.update(loss.data.item(), cnt)

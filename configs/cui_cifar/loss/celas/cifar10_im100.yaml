@@ -1,5 +1,5 @@
-NAME: 'baseline'
-OUTPUT_DIR: './output/cifar100_im100'
+NAME: 'celas'
+OUTPUT_DIR: './output/cifar10_im100'
 SHOW_STEP: 100
 SAVE_STEP: 5
 VALID_STEP: 1
@@ -9,8 +9,8 @@ COLOR_SPACE: 'RGB'
 
 DATASET:
   DATASET: 'CIFAR'
-  TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar100_imbalance100_train.json'
-  VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar100_imbalance100_valid.json'
+  TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance100_train.json'
+  VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance100_valid.json'
 
 BACKBONE:
   TYPE: 'res32_cifar'
@@ -22,8 +22,13 @@ CLASSIFIER:
   TYPE: 'FC'
   BIAS: True
 
+
 LOSS:
-  LOSS_TYPE: 'CrossEntropy'
+  LOSS_TYPE: 'CrossEntropyLabelAwareSmooth'
+  CrossEntropyLabelAwareSmooth:
+    SMOOTH_HEAD: 0.4
+    SMOOTH_TAIL: 0.1
+    SHAPE: 'concave'
 
 TRAIN:
   BATCH_SIZE: 128

@@ -1,5 +1,5 @@
 NAME: 'baseline'
-OUTPUT_DIR: './output/cifar100_im100'
+OUTPUT_DIR: './output/cifar10_im100'
 SHOW_STEP: 100
 SAVE_STEP: 5
 VALID_STEP: 1
@@ -9,8 +9,8 @@ COLOR_SPACE: 'RGB'
 
 DATASET:
   DATASET: 'CIFAR'
-  TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar100_imbalance100_train.json'
-  VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar100_imbalance100_valid.json'
+  TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance100_train.json'
+  VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance100_valid.json'
 
 BACKBONE:
   TYPE: 'res32_cifar'
@@ -47,7 +47,6 @@ TRAIN:
     TYPE: 'default'
 
   DISTRIBUTED: False
-  APEX: False
   SYNCBN: True
 
 TRANSFORMS:
@@ -57,4 +56,7 @@ TRANSFORMS:
 TEST:
   BATCH_SIZE: 64
   NUM_WORKERS: 8
-  MODEL_FILE: 'best_model.pth'
+  MODEL_FILE: './output/cifar10_im100/baseline/models/2021-01-11-15-23/best_model.pth'
+  TAU_NORM:
+    USE_TAU_NORM: True
+    TAU: 1.0

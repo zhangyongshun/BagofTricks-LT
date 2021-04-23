@@ -1,4 +1,4 @@
-NAME: 'baseline'
+NAME: 'celas'
 OUTPUT_DIR: './output/cifar100_im100'
 SHOW_STEP: 100
 SAVE_STEP: 5
@@ -23,7 +23,11 @@ CLASSIFIER:
   BIAS: True
 
 LOSS:
-  LOSS_TYPE: 'CrossEntropy'
+  LOSS_TYPE: 'CrossEntropyLabelAwareSmooth'
+  CrossEntropyLabelAwareSmooth:
+    SMOOTH_HEAD: 0.4
+    SMOOTH_TAIL: 0.1
+    SHAPE: 'concave'
 
 TRAIN:
   BATCH_SIZE: 128

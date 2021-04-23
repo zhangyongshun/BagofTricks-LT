@@ -80,6 +80,12 @@ _C.LOSS.ClassBalanceFocal.GAMMA = 0.5
 _C.LOSS.CrossEntropyLabelSmooth = CN()
 _C.LOSS.CrossEntropyLabelSmooth.EPSILON = 0.1
 
+
+_C.LOSS.CrossEntropyLabelAwareSmooth = CN()
+_C.LOSS.CrossEntropyLabelAwareSmooth.SMOOTH_HEAD = 0.4
+_C.LOSS.CrossEntropyLabelAwareSmooth.SMOOTH_TAIL = 0.1
+_C.LOSS.CrossEntropyLabelAwareSmooth.SHAPE = 'concave'
+
 _C.LOSS.FocalLoss = CN()
 _C.LOSS.FocalLoss.GAMMA = 2.0
 
@@ -146,6 +152,7 @@ _C.TRAIN.LR_SCHEDULER.WARM_EPOCH = 5
 _C.TRAIN.LR_SCHEDULER.COSINE_DECAY_END = 0
 
 _C.TRAIN.DISTRIBUTED = False
+_C.TRAIN.APEX = True
 _C.TRAIN.SYNCBN = False
 
 # testing
@@ -153,6 +160,9 @@ _C.TEST = CN()
 _C.TEST.BATCH_SIZE = 32
 _C.TEST.NUM_WORKERS = 8
 _C.TEST.MODEL_FILE = ""
+_C.TEST.TAU_NORM = CN()
+_C.TEST.TAU_NORM.USE_TAU_NORM = False
+_C.TEST.TAU_NORM.TAU = 1.0
 
 _C.TRANSFORMS = CN()
 _C.TRANSFORMS.TRAIN_TRANSFORMS = ("random_resized_crop", "random_horizontal_flip")
