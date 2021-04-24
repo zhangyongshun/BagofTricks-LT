@@ -69,8 +69,8 @@ git clone https://github.com/NVIDIA/apex
 cd apex
 pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
 ```
-- If you haven't installed the apex, please set the `TRAIN.APEX` to `False` in your yaml files before training. **Besides, if the apex is not installed, the `Distributed training with DistributedDataParallel` in our codes cannot be used.**
-## Prepare datasets
+- **If the apex is not installed, the `Distributed training with DistributedDataParallel` in our codes cannot be used.**
+## Preparing the datasets
 
 We provide three datasets in this repo: long-tailed CIFAR (CIFAR-LT), long-tailed ImageNet (ImageNet-LT), and iNaturalist 2018 (iNat18). 
 

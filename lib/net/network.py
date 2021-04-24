@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from backbone import (res32_cifar, res50, res10)
-from modules import GAP, FCNorm, Identity, LWS, cRT
+from modules import GAP, FCNorm, Identity, LWS
 import copy
 import numpy as np
 import cv2
@@ -29,6 +29,7 @@ class Network(nn.Module):
             pretrained_model=cfg.BACKBONE.PRETRAINED_MODEL,
             last_layer_stride=2,
         )
+        self.mode = mode
         self.module = self._get_module()
         self.classifier = self._get_classifer()
 
@@ -109,19 +110,42 @@ class Network(nn.Module):
         for k, v in pretrain_dict.items():
             if k.startswith("module"):
                 k = k[7:]
-            if  k == 'classifier.weight':
-                if tau_norm:
-                    print('*-*'*30)
-                    print('Using tau-normalization')
-                    print('*-*'*30)
-                    v = v / torch.pow(torch.norm(v, 2, 1, keepdim=True), tau)
-                # if self.cfg.CLASSIFIER.TYPE == "cRT":
-                #
-                # elif self.cfg.CLASSIFIER.TYPE == "LWS"
+            if  k == 'classifier.weight' and tau_norm:
+                print('*-*'*30)
+                print('Using tau-normalization')
+                print('*-*'*30)
+                v = v / torch.pow(torch.norm(v, 2, 1, keepdim=True), tau)
             new_dict[k] = v
+
+        if self.mode == 'train' and self.cfg.CLASSIFIER.TYPE == "cRT":
+            print('*-*'*30)
+            print('Using cRT')
+            print('*-*'*30)
+            for k in new_dict.keys():
+                if 'classifier' in k: print(k)
+            new_dict.pop('classifier.weight')
+            try:
+                new_dict.pop('classifier.bias')
+            except:
+                pass
+
+        if self.mode=='train' and self.cfg.CLASSIFIER.TYPE == "LWS":
+            print('*-*'*30)
+            print('Using LWS')
+            print('*-*'*30)
+            bias_flag = self.cfg.CLASSIFIER.BIAS
+            for k in new_dict.keys():
+                if 'classifier' in k: print(k)
+            class_weight = new_dict.pop('classifier.weight')
+            new_dict['classifier.fc.weight'] = class_weight
+            if bias_flag:
+                class_bias = new_dict.pop('classifier.bias')
+                new_dict['classifier.fc.bias'] = class_bias
 
         model_dict.update(new_dict)
         self.load_state_dict(model_dict)
+        if self.mode == 'train' and self.cfg.CLASSIFIER.TYPE in ['cRT', 'LWS']:
+            self.freeze_backbone()
         print("All model has been loaded...")
 
 
@@ -149,16 +173,13 @@ class Network(nn.Module):
 
     def _get_classifer(self):
         bias_flag = self.cfg.CLASSIFIER.BIAS
-
         num_features = self.get_feature_length()
         if self.cfg.CLASSIFIER.TYPE == "FCNorm":
             classifier = FCNorm(num_features, self.num_classes)
-        elif self.cfg.CLASSIFIER.TYPE == "FC":
+        elif self.cfg.CLASSIFIER.TYPE in ["FC", "cRT"]:
             classifier = nn.Linear(num_features, self.num_classes, bias=bias_flag)
-        elif self.cfg.CLASSIFIER.TYPE == "cRT":
-            classifier = cRT(num_features, self.num_classes)
         elif self.cfg.CLASSIFIER.TYPE == "LWS":
-            classifier = LWS(num_features, self.num_classes)
+            classifier = LWS(num_features, self.num_classes, bias=bias_flag)
         else:
             raise NotImplementedError
 

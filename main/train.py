@@ -32,7 +32,12 @@ try:
     from apex.fp16_utils import *
     from apex import amp, optimizers
     from apex.multi_tensor_apply import multi_tensor_applier
+    apex_available = True
 except:
+    print('*-*'*30)
+    print('Apex have not been installed! Codes will be run without using apex!')
+    print('*-*'*30)
+    apex_available = False
     pass
 
 import random
@@ -173,12 +178,12 @@ if __name__ == "__main__":
 
     opt_level = 'O1'
     use_apex = True
-    if cfg.TRAIN.DISTRIBUTED:
+    if cfg.TRAIN.DISTRIBUTED and apex_available:
         model = model.cuda()
         model = apex.parallel.convert_syncbn_model(model)
         model, optimizer = amp.initialize(model, optimizer, opt_level=opt_level)
         model = DDP(model, delay_allreduce=True)
-    elif cfg.TRAIN.APEX:
+    elif cfg.TRAIN.APEX and apex_available:
         model, optimizer = amp.initialize(model, optimizer, opt_level=opt_level)
         model = torch.nn.DataParallel(model)
     else:

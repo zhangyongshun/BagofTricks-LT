@@ -11,7 +11,9 @@ try:
     from apex import amp, optimizers
     from apex.multi_tensor_apply import multi_tensor_applier
     import apex
+    apex_available = True
 except:
+    apex_available = False
     pass
 import numpy as np
 
@@ -46,7 +48,6 @@ def create_logger(cfg, rank=0):
 def get_optimizer(cfg, model):
     base_lr = cfg.TRAIN.OPTIMIZER.BASE_LR
     params = []
-
     for name, p in model.named_parameters():
         if p.requires_grad:
             params.append({"params": p})
@@ -107,9 +108,8 @@ def get_model(cfg, num_classes, device, logger):
         model.freeze_backbone()
         logger.info("Backbone has been freezed")
 
-    if not cfg.DATASET.GENERATE_CAM_BASED_DATASET and cfg.TRAIN.DISTRIBUTED:
-        if cfg.TRAIN.SYNCBN:
-            model = apex.parallel.convert_syncbn_model(model)
+    if not cfg.DATASET.GENERATE_CAM_BASED_DATASET and cfg.TRAIN.DISTRIBUTED and apex_available:
+        model = apex.parallel.convert_syncbn_model(model)
     else:
         model = model.cuda()
 

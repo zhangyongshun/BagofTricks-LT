@@ -16,9 +16,9 @@ class FCNorm(nn.Module):
 
 class LWS(nn.Module):
 
-    def __init__(self, num_features, num_classes):
+    def __init__(self, num_features, num_classes, bias=True):
         super(LWS, self).__init__()
-        self.fc = nn.Linear(num_features, num_classes)
+        self.fc = nn.Linear(num_features, num_classes, bias=bias)
         self.scales = nn.Parameter(torch.ones(num_classes))
         for param_name, param in self.fc.named_parameters():
             param.requires_grad = False
@@ -26,14 +26,4 @@ class LWS(nn.Module):
     def forward(self, x):
         x = self.fc(x)
         x *= self.scales
-        return x, None
-
-class cRT(nn.Module):
-
-    def __init__(self, num_features, num_classes):
-        super(cRT, self).__init__()
-        self.fc = nn.Linear(num_features, num_classes)
-
-    def forward(self, x):
-        x = self.fc(x)
-        return x, None
+        return x
