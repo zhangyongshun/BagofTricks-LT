@@ -8,6 +8,7 @@
 ### Re-weighting
 
 - Strictly speaking, the LDAM loss, CrossEntropyLabelSmooth, CDT, and SEQL do not belong to re-weighting methods, but both of them consider the long-tailed distribution when calculate the losses, and they can be combined with re-weighting in DRW. So we add them to re-weighting family.
+- The methods of re-weighting are realized in [loss.py](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/loss/loss.py).
 
 | Datasets                                                     | CIFAR-10-LT-100 | CIFAR-10-LT-50 | CIFAR-100-LT-100 | CIFAR-100-LT-50 |
 | ------------------------------------------------------------ | :-------------: | :------------: | :--------------: | :-------------: |
@@ -26,6 +27,8 @@
 
 ### Re-sampling
 
+- The methods of re-sampling are realized in [dataset](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/lib/dataset).
+
 | Datasets                                                     | CIFAR-10-LT-100 | CIFAR-10-LT-50 | CIFAR-100-LT-100 | CIFAR-100-LT-50 |
 | ------------------------------------------------------------ | :-------------: | :------------: | :--------------: | :-------------: |
 | <details><summary>Baseline</summary> <ol><li>CONFIG (from left to right):<ul>          <li>configs/cui_cifar/baseline/{cifar10_im100.yaml, cifar10_im50.yaml, cifar100_im100.yaml, cifar100_im50.yaml}</li></ul>      </li><br/>      <li>Running commands:<ul><li>bash data_parallel_train.sh CONFIG GPU</li></ul> </li>      </ol></details> |      30.12      |     24.81      |      61.76       |      57.65      |
@@ -34,6 +37,8 @@
 | <details><summary>Progressively-balanced sampling</summary><ol><li>Introduction: <ul><li>Progressively-balanced sampling changes the sampling probabilities of classes from random sampling to class-balanced sampling., and you can see the section `Re-sampling` in our [paper]() for more details. </li><li>The progressively-balanced sampling paper link: [Kang et al., ICLR 2020](https://arxiv.org/abs/1910.09217).</li></ul></li> <br/> <li>CONFIG:<ul><li>configs/cui_cifar/resampling/progressive/{cifar10_im100.yaml, cifar10_im50.yaml, cifar100_im100.yaml, cifar100_im50.yaml}</li></ul>      </li><br/>      <li>Running commands:<ul><li>bash data_parallel_train.sh CONFIG GPU</li></ul> </li>      </ol></details> |    **29.35**    |     24.06      |    **60.90**     |    **56.92**    |
 
 ### Mixup training
+
+- The methods of mixup training are realized in [combiner.py](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/core/combiner.py).
 
 | Datasets                                                     | CIFAR-10-LT-100 | CIFAR-10-LT-50 | CIFAR-100-LT-100 | CIFAR-100-LT-50 |
 | ------------------------------------------------------------ | :-------------: | :------------: | :--------------: | :-------------: |
@@ -46,6 +51,8 @@
 ### Two-stage training
 
 ##### DRW
+
+- The methods of DRW are realized in [loss.py](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/loss/loss.py).
 
 | First Stage | Second Stage                                                 | CIFAR-10-LT-100 | CIFAR-10-LT-50 | CIFAR-100-LT-100 | CIFAR-100-LT-50 |
 | ----------- | :----------------------------------------------------------- | :-------------: | :------------: | :--------------: | :-------------: |
@@ -62,6 +69,8 @@
 
 ##### DRS
 
+- The DRS is realized in [dataset](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/lib/dataset).
+
 | First Stage | Second Stage                                                 | CIFAR-10-LT-100 | CIFAR-10-LT-50 | CIFAR-100-LT-100 | CIFAR-100-LT-50 |
 | ----------- | :----------------------------------------------------------- | :-------------: | :------------: | :--------------: | :-------------: |
 | CE          | <details><summary>Vanilla sampling</summary> <ol><li>CONFIG (from left to right):<ul>          <li>configs/cui_cifar/baseline/{cifar10_im100.yaml, cifar10_im50.yaml, cifar100_im100.yaml, cifar100_im50.yaml}</li></ul>      </li><br/>      <li>Running commands:<ul><li>bash data_parallel_train.sh CONFIG GPU</li></ul> </li>      </ol></details> |      30.12      |     24.81      |      61.76       |      57.65      |
@@ -74,9 +83,10 @@
 
 #### Classifier-balancing
 
-Classifier-balancing shows another way to balance the backbone and classifier. Unlike DRS and DRW, it trains a backbone firstly and then freezes the backbone to re-balance the classifier. 
+- Classifier-balancing shows another way to balance the backbone and classifier. Unlike DRS and DRW, it trains a backbone firstly and then freezes the backbone to re-balance the classifier. 
 
-The classifier-balancing methods introduced in [Kang et al., ICLR 2020](https://arxiv.org/abs/1910.09217),  includes tau_normalization, LWS and cRT. You can see the Section 4 in the paper for details of these methods,
+- The classifier-balancing methods introduced in [Kang et al., ICLR 2020](https://arxiv.org/abs/1910.09217),  includes tau_normalization, LWS and cRT. You can see the Section 4 in the paper for details of these methods.
+- tau_normalization, LWS, and cRT are realized in [network.py](https://github.com/zhangyongshun/BagofTricks-LT/blob/d5bfa39caa38f7d67b6899741d414cc293dde903/lib/net/network.py#L101)
 
 | Datasets                                                     | CIFAR-10-LT-100 | CIFAR-10-LT-50 | CIFAR-100-LT-100 | CIFAR-100-LT-50 |
 | ------------------------------------------------------------ | :-------------: | :------------: | :--------------: | :-------------: |
