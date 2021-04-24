@@ -27,7 +27,9 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 - [x] `2021-01-30` - Add the results of combining mixup methods and re-balancing in [trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md).
 - [x] `2021-04-22` - Add one option (TRAIN.APEX) in [config.py](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/config/default.py), so you can set TRAIN.APEX to False for training without using apex.
 - [x] `2021-04-23` - Add CrossEntropyLabelAwareSmooth ([label-aware smoothing, CVPR 2021](https://arxiv.org/abs/2104.00466)) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md).
-- [ ] `2021-04-24` - [33%] Add [classifier-balancing](https://openreview.net/forum?id=r1gRTCVFvB) and corresponding experiments in Two-stage training in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), including $\tau$-normalization, cRT and LWS.
+- [ ] `2021-04-23` - [33%] Add [classifier-balancing](https://openreview.net/forum?id=r1gRTCVFvB) and corresponding experiments in Two-stage training in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), including $\tau$-normalization, cRT and LWS.
+- [x] `2021-04-24` - Add the validation running command, which loads a trained model, then returns the validation acc and a corresponding confusion matrix figure. See `Usage` in this README for details.
+
 
 ## Trick gallery and combinations
 
@@ -227,7 +229,7 @@ In this repo:
 - If more than one GPU is used, DistributedDataParallel training is efficient than DataParallel training, especially when the CPU calculation forces are limited.
 
   
-
+### Training
 #### Parallel training with DataParallel 
 
 ```bash
@@ -248,7 +250,18 @@ export NCCL_SOCKET_IFNAME = [your own socket name]
 # `NUM_GPUs` are the number of GPUs you want to use. If you set `GPUs` to `0,1,4`, then `NUM_GPUs` should be `3`.
 bash distributed_data_parallel_train.sh configs/test/distributed_data_parallel.yaml NUM_GPUs GPUs
 ```
+### Validation
 
+You can get the validation accuracy and the corresponding confusion matrix after running the following commands. 
+
+See [main/valid.py](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/main/valid.py) for more details.
+
+```bash
+1, Change the TEST.MODEL_FILE in the yaml to your own path of the trained model firstly.
+2, To do validation
+# `GPUs` are the GPUs you want to use, such as `0,1,4`.
+python main/valid.py --cfg [Your yaml] --gpus GPUS
+```
 ## The comparison between the baseline results using our codes and the references [<a href="https://arxiv.org/abs/1901.05555">Cui</a>, <a href="https://arxiv.org/abs/1910.09217">Cao</a>]
 
 - We use **Top-1 error rates** as our evaluation metric.

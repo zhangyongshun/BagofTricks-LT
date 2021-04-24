@@ -23,6 +23,13 @@ def parse_args():
         type=str,
     )
     parser.add_argument(
+        "--gpus",
+        help="decide which gpus to use",
+        required=True,
+        default='0',
+        type=str,
+    )
+    parser.add_argument(
         "opts",
         help="Modify config options using the command-line",
         default=None,
@@ -92,6 +99,8 @@ def valid_model(dataLoader, model, cfg, device, num_classes):
 if __name__ == "__main__":
     args = parse_args()
     update_config(cfg, args)
+
+    os.environ['CUDA_VISIBLE_DEVICES'] = args.gpus
 
     test_set = eval(cfg.DATASET.DATASET)("valid", cfg)
     num_classes = test_set.get_num_classes()
