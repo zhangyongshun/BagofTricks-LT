@@ -86,7 +86,7 @@
 - Classifier-balancing shows another way to balance the backbone and classifier. Unlike DRS and DRW, it trains a backbone firstly and then freezes the backbone to re-balance the classifier. 
 
 - The classifier-balancing methods introduced in [Kang et al., ICLR 2020](https://arxiv.org/abs/1910.09217),  includes tau_normalization, LWS and cRT. You can see the Section 4 in the paper for details of these methods.
-- tau_normalization, LWS, and cRT are realized in [network.py](https://github.com/zhangyongshun/BagofTricks-LT/blob/d5bfa39caa38f7d67b6899741d414cc293dde903/lib/net/network.py#L101)
+- tau_normalization, LWS, and cRT are realized in [network.py](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/net/network.py#L102)
 
 | Datasets                                                     | CIFAR-10-LT-100 | CIFAR-10-LT-50 | CIFAR-100-LT-100 | CIFAR-100-LT-50 |
 | ------------------------------------------------------------ | :-------------: | :------------: | :--------------: | :-------------: |
