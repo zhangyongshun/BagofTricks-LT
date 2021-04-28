@@ -15,6 +15,12 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 
 <!--<><summary> <b>TODO LIST</b> </summary></details>-->
 
+## Paper collection of long-tailed visual recognition
+
+[Awesome-of-Long-Tailed-Recognition](https://github.com/zwzhang121/Awesome-of-Long-Tailed-Recognition)
+
+[Long-Tailed-Classification-Leaderboard](https://github.com/yanyanSann/Long-Tailed-Classification-Leaderboard)
+
 ## Development log
 
 - [x] `2020-12-26` - Reorignize all the codes, according to [Megvii-Nanjing/BBN.](https://github.com/Megvii-Nanjing/BBN)
