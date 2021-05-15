@@ -2,7 +2,7 @@
 
 ### 1. Mixup methods with re-balancing 
 
-- Corresponding CONFIGs at [this link]().
+- Corresponding CONFIGs at [this link](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/configs/cui_cifar/combinations/mixup_with_rebalancing).
 - In this section, **we will show that the mixup shows excellent performance, when combined with re-balancing.** We choose the following methods to conduct experiments:
   - Mixup methods: input mixup, manifold mixup, and remix.
   - Re-balancing methods: re-weighting (CS_CE, BalancedSoftmaxCE) and re-sampling (Class-balanced sampling, Progressively-balanced sampling).
@@ -45,7 +45,7 @@
 | Bag of tricks | CE+IM+DRS with CAM-based  balance-sampling | CE+Fine-tuning without mixup |    **20.24**    |   **16.44**    |    **52.17**     |    **47.98**    |
 
 - ``IM`` means ``input mixup``.
-- Corresponding CONFIGs at [this link]().
+- Corresponding CONFIGs at [this link](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/configs/cui_cifar/combinations/bag_of_tricks).
 
 - Bag of tricks contains three stages, and you can reproduce the above results by the following steps:
   - First stage+Second stage:
