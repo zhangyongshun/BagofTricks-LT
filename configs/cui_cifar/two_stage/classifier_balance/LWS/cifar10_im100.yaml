@@ -17,7 +17,7 @@ BACKBONE:
 
 NETWORK:
   PRETRAINED: True
-  PRETRAINED_MODEL: './output/cifar10_im100/baseline/models/2021-01-11-15-23/epoch_200.pth'
+  PRETRAINED_MODEL: './output/cifar10_im100/baseline/models/epoch_200.pth'
 
 
 MODULE:

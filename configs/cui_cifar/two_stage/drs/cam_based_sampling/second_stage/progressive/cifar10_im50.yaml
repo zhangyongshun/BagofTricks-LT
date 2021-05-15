@@ -15,7 +15,7 @@ DATASET:
 
 NETWORK:
   PRETRAINED:  True
-  PRETRAINED_MODEL: './output/cifar10_im50/first_stage/models/2021-02-19-11-57/epoch_160.pth'
+  PRETRAINED_MODEL: './output/cifar10_im50/first_stage/models/epoch_160.pth'
 
 
 BACKBONE:

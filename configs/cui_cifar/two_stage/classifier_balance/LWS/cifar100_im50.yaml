@@ -20,7 +20,7 @@ MODULE:
 
 NETWORK:
   PRETRAINED: True
-  PRETRAINED_MODEL: './output/cifar100_im50/baseline/models/2021-04-23-20-01/epoch_200.pth'
+  PRETRAINED_MODEL: './output/cifar100_im50/baseline/models/epoch_200.pth'
 
 CLASSIFIER:
   TYPE: 'LWS'

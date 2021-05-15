@@ -19,7 +19,7 @@ DATASET:
 
 NETWORK:
   PRETRAINED:  True
-  PRETRAINED_MODEL: './output/cifar10_im100/first_stage/models/2021-02-19-11-58/best_model.pth'
+  PRETRAINED_MODEL: './output/cifar10_im100/first_stage/models/best_model.pth'
 
 
 BACKBONE:

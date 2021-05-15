@@ -56,7 +56,7 @@ TRANSFORMS:
 TEST:
   BATCH_SIZE: 64
   NUM_WORKERS: 8
-  MODEL_FILE: './output/cifar10_im100/baseline/models/2021-01-11-15-23/best_model.pth'
+  MODEL_FILE: './output/cifar10_im100/baseline/models/best_model.pth'
   TAU_NORM:
     USE_TAU_NORM: True
     TAU: 1.0

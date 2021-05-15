@@ -62,7 +62,7 @@ def parse_args():
         type= ast.literal_eval,
         dest = 'auto_resume',
         required=False,
-        default= True,
+        default= False,
     )
 
     parser.add_argument(
@@ -99,18 +99,13 @@ if __name__ == "__main__":
     cudnn.benchmark = False
 
     # close loop
-    model_dir = os.path.join(cfg.OUTPUT_DIR, cfg.NAME, "models",
-                             str(datetime.now().strftime("%Y-%m-%d-%H-%M")))
-    code_dir = os.path.join(cfg.OUTPUT_DIR, cfg.NAME, "codes",
-                             str(datetime.now().strftime("%Y-%m-%d-%H-%M")))
+    model_dir = os.path.join(cfg.OUTPUT_DIR, cfg.NAME, "models")
+    code_dir = os.path.join(cfg.OUTPUT_DIR, cfg.NAME, "codes")
     tensorboard_dir = (
-        os.path.join(cfg.OUTPUT_DIR, cfg.NAME, "tensorboard",
-                             str(datetime.now().strftime("%Y-%m-%d-%H-%M")))
+        os.path.join(cfg.OUTPUT_DIR, cfg.NAME, "tensorboard")
         if cfg.TRAIN.TENSORBOARD.ENABLE
         else None
     )
-    tsne_dir = os.path.join(cfg.OUTPUT_DIR, cfg.NAME, "tsne",
-                 str(datetime.now().strftime("%Y-%m-%d-%H-%M")))
     if local_rank == 0:
 
         if not os.path.exists(model_dir):

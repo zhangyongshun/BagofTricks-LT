@@ -35,7 +35,7 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 - [x] `2021-04-23` - Add CrossEntropyLabelAwareSmooth ([label-aware smoothing, CVPR 2021](https://arxiv.org/abs/2104.00466)) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md).
 - [x] `2021-04-24` - Add [classifier-balancing](https://openreview.net/forum?id=r1gRTCVFvB) and corresponding experiments in Two-stage training in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), including $\tau$-normalization, cRT and LWS.
 - [x] `2021-04-24` - Add the validation running command, which loads a trained model, then returns the validation acc and a corresponding confusion matrix figure. See `Usage` in this README for details.
-
+- [x] `2021-05-15` - Add CONFIGs and experimental results of our bag of tricks in [trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md).
 
 ## Trick gallery and combinations
 
@@ -193,7 +193,7 @@ Here is an example.
   python tools/convert_from_tfrecords.py  --input_path /downloaded/data/ --out_path /downloaded/converted/
   ```
 
-  2. [Cao et al., ICLR 2020](https://arxiv.org/abs/1910.09217) followed  [Cui et al., CVPR 2019](https://arxiv.org/abs/1901.05555)'s method to generate the CIFAR-LT randomly. They modify the CIFAR datasets provided by PyTorch as [this file](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/dataset/cao_cifar.py) shows.
+  2. [Cao et al., NeurIPS 2019](https://arxiv.org/abs/1906.07413) followed  [Cui et al., CVPR 2019](https://arxiv.org/abs/1901.05555)'s method to generate the CIFAR-LT randomly. They modify the CIFAR datasets provided by PyTorch as [this file](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/dataset/cao_cifar.py) shows.
 
 - #### ImageNet-LT
 
@@ -268,13 +268,13 @@ See [main/valid.py](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/ma
 # `GPUs` are the GPUs you want to use, such as `0,1,4`.
 python main/valid.py --cfg [Your yaml] --gpus GPUS
 ```
-## The comparison between the baseline results using our codes and the references [<a href="https://arxiv.org/abs/1901.05555">Cui</a>, <a href="https://arxiv.org/abs/1910.09217">Cao</a>]
+## The comparison between the baseline results using our codes and the references [<a href="https://arxiv.org/abs/1901.05555">Cui</a>, <a href="https://arxiv.org/abs/1910.09217">Kang</a>]
 
 - We use **Top-1 error rates** as our evaluation metric.
 
 <!--ImageNet_LT baseline acc, baseline_noc 35.01 baseline 36.26 baseline2 34.18 baseline2_noc 33.71 -->
 
-- From the results of two CIFAR-LT, we can see that the **CIFAR-LT provided by [Cao](https://arxiv.org/abs/1910.09217) has much lower Top-1 error rates on CIFAR-10-LT**, compared with the baseline results reported in his paper. So, **in our experiments, we use the CIFAR-LT of [Cui](https://arxiv.org/abs/1901.05555) for fairness.**
+- From the results of two CIFAR-LT, we can see that the **CIFAR-LT provided by [Cao](https://arxiv.org/abs/1906.07413) has much lower Top-1 error rates on CIFAR-10-LT**, compared with the baseline results reported in his paper. So, **in our experiments, we use the CIFAR-LT of [Cui](https://arxiv.org/abs/1901.05555) for fairness.**
 - **For the ImageNet-LT, we find that  the color_jitter augmentation was not included in our experiments, which, however, is adopted by other methods. So, in this repo, we add the color_jitter augmentation on ImageNet-LT. The old baseline without color_jitter is 64.89, which is +1.15 points higher than the new baseline.**
 - You can click the `Baseline` in the table below to see the experimental settings and corresponding running commands. 
 
@@ -283,7 +283,7 @@ python main/valid.py --cfg [Your yaml] --gpus GPUS
   <tr>
     <th rowspan="4" align="center">Datasets</th>
     <th align="center" colspan="4" align="center"><a href="https://arxiv.org/abs/1901.05555">Cui et al., 2019</a></th>
-    <th align="center" colspan="4"><a href="https://arxiv.org/abs/1910.09217">Cao et al., 2020</a></th>
+    <th align="center" colspan="4"><a href="https://arxiv.org/abs/1906.07413">Cao et al., 2020</a></th>
     <th align="center" rowspan="4">ImageNet-LT</th>
     <th align="center" rowspan="4">iNat18</th>
   </tr>
@@ -347,7 +347,7 @@ python main/valid.py --cfg [Your yaml] --gpus GPUS
     <th align="center" style="font-weight:normal">40.55</td>
   </tr>
   <tr>
-    <th align="left" style="font-weight:normal">Reference [<a href="https://arxiv.org/abs/1901.05555">Cui</a>, <a href="https://arxiv.org/abs/1910.09217">Cao</a>, <a href="https://arxiv.org/abs/1904.05160">Liu</a>]</td>
+    <th align="left" style="font-weight:normal">Reference [<a href="https://arxiv.org/abs/1901.05555">Cui</a>, <a href="https://arxiv.org/abs/1910.09217">Kang</a>, <a href="https://arxiv.org/abs/1904.05160">Liu</a>]</td>
     <th align="center" style="font-weight:normal">29.64</td>
     <th align="center" style="font-weight:normal">25.19</td>
     <th align="center" style="font-weight:normal">61.68</td>
