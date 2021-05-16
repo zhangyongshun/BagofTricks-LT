@@ -38,19 +38,14 @@
 
 ### 2. Results of bag of tricks 
 
-|               |        Frist Stage +  Second Stage         |         Third Stage          | CIFAR-10-LT-100 | CIFAR-10-LT-50 | CIFAR-100-LT-100 | CIFAR-100-LT-50 |
-| ------------- | :----------------------------------------: | :--------------------------: | :-------------: | :------------: | :--------------: | :-------------: |
-| Baseline      |                     --                     |              CE              |      30.12      |     24.81      |      61.76       |      57.65      |
-|               | CE+IM+DRS with CAM-based  balance-sampling |              --              |      21.33      |     16.78      |      54.09       |      49.73      |
-| Bag of tricks | CE+IM+DRS with CAM-based  balance-sampling | CE+Fine-tuning without mixup |    **20.24**    |   **16.44**    |    **52.17**     |    **47.98**    |
+|        Frist Stage +  Second Stage         |         Third Stage          | CIFAR-10-LT-100 | CIFAR-10-LT-50 | CIFAR-100-LT-100 | CIFAR-100-LT-50 |
+| :----------------------------------------: | :--------------------------: | :-------------: | :------------: | :--------------: | :-------------: |
+|                     --                     |              CE              |      30.12      |     24.81      |      61.76       |      57.65      |
+| CE+IM+DRS with CAM-based  balance-sampling |              --              |      21.33      |     16.78      |      54.09       |      49.73      |
+| CE+IM+DRS with CAM-based  balance-sampling | CE+Fine-tuning without mixup |      20.24      |     16.44      |    **52.17**     |    **47.98**    |
+|      CE+IM+DRW with BalancedSoftmaxCE      |              --              |    **18.73**    |   **15.66**    |      53.30       |      48.76      |
 
 - ``IM`` means ``input mixup``.
 - Corresponding CONFIGs at [this link](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/configs/cui_cifar/combinations/bag_of_tricks).
 
-- Bag of tricks contains three stages, and you can reproduce the above results by the following steps:
-  - First stage+Second stage:
-    - First stage: bash data_parallel_train.sh FIRST-STAGE-CONFIG GPU
-    - CAM generation (generating the augmented images):  bash data_parallel_train.sh CAM-GENERATION-CONFIG GPU
-    - Second stage: bash data_parallel_train.sh SECOND-STAGE-CONFIG GPU
-  - Third stage: bash data_parallel_train.sh THIRD-STAGE-CONFIG GPU
 

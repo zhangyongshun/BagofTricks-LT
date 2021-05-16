@@ -1,4 +1,4 @@
-NAME: 'bagoftricks-third-stage'
+NAME: 'bsce-drw-im'
 OUTPUT_DIR: './output/cifar10_im100'
 SHOW_STEP: 100
 SAVE_STEP: 5
@@ -12,10 +12,6 @@ DATASET:
   TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance100_train.json'
   VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance100_valid.json'
 
-NETWORK:
-  PRETRAINED:  True
-  PRETRAINED_MODEL: './output/cifar10_im100/bagoftricks-second-stage/models/epoch_80.pth'
-
 BACKBONE:
   TYPE: 'res32_cifar'
 
@@ -27,29 +23,33 @@ CLASSIFIER:
   BIAS: True
 
 LOSS:
-  LOSS_TYPE: 'CrossEntropy'
+  LOSS_TYPE: 'BalancedSoftmaxCE'
 
 TRAIN:
+
+  TWO_STAGE:
+    DRW: True
+    START_EPOCH: 320
+
   BATCH_SIZE: 128
-  MAX_EPOCH: 20
+  MAX_EPOCH: 400
   NUM_WORKERS: 16
   COMBINER:
-    TYPE: 'default'
+    TYPE: 'mix_up'
   OPTIMIZER:
     TYPE: 'SGD'
-    BASE_LR: 0.001
+    BASE_LR: 0.1
     MOMENTUM: 0.9
     WEIGHT_DECAY: 2e-4
   LR_SCHEDULER:
     TYPE: 'warmup'
-    LR_STEP: [8, 16]
-    LR_FACTOR: 0.1
+    LR_STEP: [320, 360]
+    LR_FACTOR: 0.01
+    WARM_EPOCH: 5
   TENSORBOARD:
-    ENABLE: False
+    ENABLE: True
   SAMPLER:
-    TYPE: 'weighted sampler'
-    WEIGHTED_SAMPLER:
-      TYPE: 'balance'
+    TYPE: 'default'
 
   DISTRIBUTED: False
   SYNCBN: True
