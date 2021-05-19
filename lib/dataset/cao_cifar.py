@@ -70,9 +70,9 @@ class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
 
 
         print("{} Mode: Contain {} images".format(mode, len(self.data)))
-
+        self.class_weight, self.sum_weight = self.get_weight(self.get_annotations(), self.cls_num)
         if self.cfg.TRAIN.SAMPLER.TYPE == "weighted sampler" and self.train:
-            self.class_weight, self.sum_weight = self.get_weight(self.get_annotations(), self.cls_num)
+
             self.class_dict = self._get_class_dict()
 
             print('-'*20+'in imbalance cifar dataset'+'-'*20)
@@ -116,7 +116,24 @@ class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
 
         img, target = self.data[index]['image'], self.data[index]['category_id']
         meta = dict()
+        if self.dual_sample:
+            if self.cfg.TRAIN.SAMPLER.DUAL_SAMPLER.TYPE == "reverse":
+                sample_class = self.sample_class_index_by_weight()
+                sample_indexes = self.class_dict[sample_class]
+                sample_index = random.choice(sample_indexes)
+            elif self.cfg.TRAIN.SAMPLER.DUAL_SAMPLER.TYPE == "balance":
+                sample_class = random.randint(0, self.cls_num-1)
+                sample_indexes = self.class_dict[sample_class]
+                sample_index = random.choice(sample_indexes)
+            elif self.cfg.TRAIN.SAMPLER.DUAL_SAMPLER.TYPE == "uniform":
+                sample_index = random.randint(0, self.__len__() - 1)
 
+            sample_img, sample_label = self.data[sample_index], self.targets[sample_index]
+            sample_img = Image.fromarray(sample_img)
+            sample_img = self.transform(sample_img)
+
+            meta['sample_image'] = sample_img
+            meta['sample_label'] = sample_label
         # doing this so that it is consistent with all other datasets
         # to return a PIL Image
         img = Image.fromarray(img)
@@ -129,6 +146,12 @@ class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
 
         return img, target, meta
 
+    def sample_class_index_by_weight(self):
+        rand_number, now_sum = random.random() * self.sum_weight, 0
+        for i in range(self.cls_num):
+            now_sum += self.class_weight[i]
+            if rand_number <= now_sum:
+                return i
 
     def get_img_num_per_cls(self, cls_num, imb_type, imb_factor):
         img_max = len(self.data) / cls_num

@@ -44,6 +44,12 @@ class Combiner:
 
     def default(self, model, criterion, image, label, meta, **kwargs):
         image, label = image.to(self.device), label.to(self.device)
+        if 'sample_image' in meta and 'sample_label' in meta:
+            image_b = meta["sample_image"].to(self.device)
+            label_b = meta["sample_label"].to(self.device)
+            image = torch.cat([image, image_b], dim=0)
+            label = torch.cat([label, label_b])
+
         feature = model(image, feature_flag=True)
         output = model(feature, classifier_flag=True, label=label)
 
@@ -137,4 +143,32 @@ class Combiner:
         now_result = torch.argmax(self.func(output), 1)
         now_acc = (l_list * accuracy(now_result.cpu().numpy(), label_a.cpu().numpy())[0] \
                 + (1 - l_list) * accuracy(now_result.cpu().numpy(), label_b.cpu().numpy())[0]).mean()
+        return loss, now_acc
+
+    def bbn_mix(self, model, criterion, image, label, meta, **kwargs):
+        r"""
+        Reference:
+            Zhou et al. BBN: Bilateral-Branch Network with Cumulative Learning for Long-Tailed Visual Recognition, CVPR 2020.
+
+        We combine the sampling method of BBN, which consists of a uniform sampler and a reverse sampler, with input mixup.
+
+        For more details about these two samplers, you can read the original paper https://arxiv.org/abs/1912.02413.
+        """
+        l = np.random.beta(self.alpha, self.alpha) # beta distribution
+
+        image_a, image_b = image.to(self.device), meta["sample_image"].to(self.device)
+        label_a, label_b = label.to(self.device), meta["sample_label"].to(self.device)
+
+        # mix up two image
+        mixed_image = l * image_a + (1 - l) * image_b
+
+        mixed_output = model(mixed_image)
+
+        loss = l * criterion(mixed_output, label_a) + (1 - l) * criterion(mixed_output, label_b)
+
+        now_result = torch.argmax(self.func(mixed_output), 1)
+        now_acc = (
+                l * accuracy(now_result.cpu().numpy(), label_a.cpu().numpy())[0]
+                + (1 - l) * accuracy(now_result.cpu().numpy(), label_b.cpu().numpy())[0]
+        )
         return loss, now_acc

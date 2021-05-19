@@ -23,7 +23,7 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 
 ## Development log
 
-- [x] `2020-12-26` - Reorignize all the codes, according to [Megvii-Nanjing/BBN.](https://github.com/Megvii-Nanjing/BBN)
+- [x] `2020-12-26` - Reorignize all the codes, according to [BBN](https://github.com/Megvii-Nanjing/BBN).
 - [x] `2020-12-30` - Add codes of torch.nn.parallel.DistributedDataParallel. Support apex in both torch.nn.DataParallel and torch.nn.parallel.DistributedDataParallel.
 - [x] `2021-01-02` - Add [LDAMLoss, NeurIPS 2019](https://arxiv.org/abs/1906.07413), and a regularization method: [label smooth cross-entropy, CVPR 2016](https://arxiv.org/abs/1512.00567).
 - [x] `2021-01-05` - Add [SEQL (softmax equalization loss), CVPR 2020](https://arxiv.org/abs/2003.05176).
@@ -36,6 +36,7 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 - [x] `2021-04-24` - Add [classifier-balancing](https://openreview.net/forum?id=r1gRTCVFvB) and corresponding experiments in Two-stage training in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), including $\tau$-normalization, cRT and LWS.
 - [x] `2021-04-24` - Add the validation running command, which loads a trained model, then returns the validation acc and a corresponding confusion matrix figure. See `Usage` in this README for details.
 - [x] `2021-05-15` - Add CONFIGs and experimental results of our bag of tricks in [trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md).
+- [x] `2021-05-19` - Add CONFIGs and experimental results of [BBN-style sampling](https://arxiv.org/abs/1912.02413) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), which consists of a uniform sampler and a reverse sampler.
 
 ## Trick gallery and combinations
 

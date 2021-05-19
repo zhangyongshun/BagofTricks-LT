@@ -42,9 +42,9 @@ class BaseSet(Dataset):
                 'the CAM-based generated json file does not exist!'
             self.data = json.load(open(self.cfg.DATASET.CAM_DATA_JSON_SAVE_PATH))
         print("Contain {} images of {} classes".format(len(self.data), self.num_classes))
+        self.class_weight, self.sum_weight = self.get_weight(self.data, self.num_classes)
 
         if self.cfg.TRAIN.SAMPLER.TYPE == "weighted sampler" and mode == "train":
-            self.class_weight, self.sum_weight = self.get_weight(self.data, self.num_classes)
             print('-'*20+' dataset'+'-'*20)
             print('class_weight is (the first 10 classes): ')
             print(self.class_weight[:10])
@@ -153,4 +153,11 @@ class BaseSet(Dataset):
         class_weight = [max_num / i if i != 0 else 0 for i in num_list]
         sum_weight = sum(class_weight)
         return class_weight, sum_weight
+
+    def sample_class_index_by_weight(self):
+        rand_number, now_sum = random.random() * self.sum_weight, 0
+        for i in range(self.num_classes):
+            now_sum += self.class_weight[i]
+            if rand_number <= now_sum:
+                return i
 
