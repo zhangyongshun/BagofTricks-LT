@@ -20,6 +20,7 @@
 | **Input mixup** | **BalancedSoftmaxCE** |               --                |    **18.65**    |   **15.79**    |      53.19       |    **48.97**    |
 |   Input mixup   |          --           |     Class-balanced sampling     |      25.03      |     19.97      |      57.33       |      52.61      |
 |   Input mixup   |          --           | Progressively-balanced sampling |      24.70      |     18.68      |      55.50       |      50.67      |
+|   Input mixup   |          --           |       BBN-style sampling        |      22.38      |     18.33      |      57.30       |      52.16      |
 | Manifold mixup  |         CS_CE         |               --                |      26.42      |     21.04      |      68.22       |      58.53      |
 | Manifold mixup  |   BalancedSoftmaxCE   |               --                |      23.15      |     18.65      |      56.92       |      52.83      |
 | Manifold mixup  |          --           |     Class-balanced sampling     |      27.55      |     22.30      |      63.44       |      58.15      |

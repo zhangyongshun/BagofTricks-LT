@@ -37,6 +37,7 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 - [x] `2021-04-24` - Add the validation running command, which loads a trained model, then returns the validation acc and a corresponding confusion matrix figure. See `Usage` in this README for details.
 - [x] `2021-05-15` - Add CONFIGs and experimental results of our bag of tricks in [trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md).
 - [x] `2021-05-19` - Add CONFIGs and experimental results of [BBN-style sampling](https://arxiv.org/abs/1912.02413) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), which consists of a uniform sampler and a reverse sampler.
+- [x] `2021-05-19` - Add results of bbn-style sampling and input mixup in [trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md).
 
 ## Trick gallery and combinations
 
