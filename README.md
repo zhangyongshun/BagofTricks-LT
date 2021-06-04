@@ -224,7 +224,6 @@ Here is an example.
   
   python tools/convert_from_iNat.py --input_json_file /downloaded/iNat18/val2018.json --image_path /downloaded/iNat18/images --output_json_file ./iNat18_val.json 
   ```
-  
 
 ## Usage
 
@@ -372,6 +371,7 @@ python main/valid.py --cfg [Your yaml] --gpus GPUS
 @inproceedings{zhang2020tricks,
   author    = {Yongshun Zhang and Xiu{-}Shen Wei and Boyan Zhou and Jianxin Wu},
   title     = {Bag of Tricks for Long-Tailed Visual Recognition with Deep Convolutional Neural Networks},
+  pages = {3447--3455},
   booktitle = {AAAI},
   year      = {2021},
 }
