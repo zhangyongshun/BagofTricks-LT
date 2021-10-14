@@ -108,6 +108,7 @@ class BaseSet(Dataset):
             try:
                 img = cv2.imread(fpath)
                 if img is None:
+                    print(fpath)
                     print("img is None, try to re-read img")
                     continue
                 return img

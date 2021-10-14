@@ -1,0 +1,70 @@
+NAME: 'bagoftricks-second-stage'
+OUTPUT_DIR: './output/imagenet-lt/'
+SHOW_STEP: 200
+SAVE_STEP: 5
+VALID_STEP: 1
+INPUT_SIZE: (224, 224)
+COLOR_SPACE: 'RGB'
+
+DATASET:
+  DATASET: 'iNaturalist'
+  TRAIN_JSON: '/mnt/data3/zhangys/programs/BagofTricks-LT/ImageNet_LT_train.json'
+  VALID_JSON: '/mnt/data3/zhangys/programs/BagofTricks-LT/ImageNet_LT_val.json'
+  USE_CAM_BASED_DATASET: True
+  CAM_DATA_JSON_SAVE_PATH: './output/imagenetlt_CAM.json'
+
+NETWORK:
+  PRETRAINED:  True
+  PRETRAINED_MODEL: './output/imagenet-lt/bagoftricks-first-stage/models/epoch_160.pth'
+
+
+BACKBONE:
+  TYPE: 'res10'
+
+MODULE:
+  TYPE: 'GAP'
+
+CLASSIFIER:
+  TYPE: 'FC'
+  BIAS: True
+
+LOSS:
+  LOSS_TYPE: 'CrossEntropy'
+
+TRAIN:
+  BATCH_SIZE: 512
+  MAX_EPOCH: 40
+  NUM_WORKERS: 8
+  COMBINER:
+    TYPE: 'mix_up'
+    ALPHA: 1.0
+
+  OPTIMIZER:
+    TYPE: 'SGD'
+    BASE_LR: 0.002
+    MOMENTUM: 0.9
+    WEIGHT_DECAY: 1e-4
+  LR_SCHEDULER:
+    TYPE: 'multistep'
+    LR_STEP: [40]
+    LR_FACTOR: 0.1
+
+  TENSORBOARD:
+    ENABLE: False
+
+  SAMPLER:
+    TYPE: 'weighted sampler'
+    WEIGHTED_SAMPLER:
+      TYPE: 'balance'
+
+  DISTRIBUTED: False
+  SYNCBN: False
+
+TRANSFORMS:
+  TRAIN_TRANSFORMS: ("random_resized_crop", "random_horizontal_flip", "color_jitter")
+  TEST_TRANSFORMS: ("shorter_resize_for_crop", "center_crop")
+
+TEST:
+  BATCH_SIZE: 512
+  NUM_WORKERS: 8
+  MODEL_FILE: 'best_model.pth'
