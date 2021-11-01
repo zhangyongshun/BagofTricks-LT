@@ -8,8 +8,8 @@ COLOR_SPACE: 'RGB'
 
 DATASET:
   DATASET: 'CIFAR'
-  TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance50/cifar10_imbalance50_train.json'
-  VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance50/cifar10_imbalance50_valid.json'
+  TRAIN_JSON: '/mnt/data3/zhangys/CIFAR-LT/cifar10_imbalance50/cifar10_imbalance50_train.json'
+  VALID_JSON: '/mnt/data3/zhangys/CIFAR-LT/cifar10_imbalance50/cifar10_imbalance50_valid.json'
 
 BACKBONE:
   TYPE: 'res32_cifar'

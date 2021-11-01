@@ -6,7 +6,7 @@ This repository is the official PyTorch implementation of [Bag of Tricks for Lon
 
 - #### Trick gallery:  ***[trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md)***. 
   - The tricks will be **constantly updated**.
-- #### Recommond to install [Github Sort Content](https://github.com/Mottie/GitHub-userscripts/wiki/GitHub-sort-content), which can sort the columns of tables listed on github. You can see [this issue on stackoverflow](https://stackoverflow.com/questions/42843288/is-there-any-way-to-make-markdown-tables-sortable) for more information.
+- #### Recommond to install [Github Sort Content](https://github.com/Mottie/GitHub-userscripts/wiki/GitHub-sort-content), which can sort the columns of tables listed on github. With Github Sort Content, you can easily find the most efficient trick under each dataset in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md). You can see [this issue on stackoverflow](https://stackoverflow.com/questions/42843288/is-there-any-way-to-make-markdown-tables-sortable) for more information.
 
 
 ## Development log

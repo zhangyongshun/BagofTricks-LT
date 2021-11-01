@@ -3,8 +3,6 @@ import torch.nn as nn
 from torch.nn import functional as F
 import numpy as np
 
-DEBUG = False
-
 class CrossEntropy(nn.Module):
     def __init__(self, para_dict=None):
         super(CrossEntropy, self).__init__()
@@ -17,8 +15,6 @@ class CrossEntropy(nn.Module):
         #setting about defferred re-balancing by re-weighting (DRW)
         self.drw = self.para_dict['cfg'].TRAIN.TWO_STAGE.DRW
         self.drw_start_epoch = self.para_dict['cfg'].TRAIN.TWO_STAGE.START_EPOCH #start from 1
-
-
 
     def forward(self, inputs, targets, **kwargs):
         """
@@ -38,11 +34,42 @@ class CrossEntropy(nn.Module):
         start = (epoch-1) // self.drw_start_epoch
         if start and self.drw:
             self.weight_list = torch.FloatTensor(np.array([min(self.num_class_list) / N for N in self.num_class_list])).to(self.device)
-        if DEBUG:
-            print('*'*100)
-            print(self.weight_list)
-            print(self.drw)
-            print('*'*100)
+
+
+class InfluenceBalancedLoss(CrossEntropy):
+    r"""
+    References:
+    Ren et al., Balanced Meta-Softmax for Long-Tailed Visual Recognition, NeurIPS 2020.
+
+    Equation: Loss(x, c) = -log(\frac{n_c*exp(x)}{sum_i(n_i*exp(i)})
+    """
+
+    def __init__(self, para_dict=None):
+        super(InfluenceBalancedLoss, self).__init__(para_dict)
+
+    def forward(self, inputs, targets,  **kwargs):
+        """
+        Args:
+            inputs: prediction matrix (before softmax) with shape (batch_size, num_classes)
+            targets: ground truth labels with shape (batch_size)
+        """
+        logits = inputs + self.weight_list.unsqueeze(0).expand(inputs.shape[0], -1).log()
+        loss = F.cross_entropy(input=logits, target=targets)
+        return loss
+
+    def update(self, epoch):
+        """
+        Args:
+            epoch: int
+        """
+        if not self.drw:
+            self.weight_list = self.bsce_weight
+        else:
+            self.weight_list = torch.ones(self.bsce_weight.shape).to(self.device)
+            start = (epoch-1) // self.drw_start_epoch
+            if start:
+                self.weight_list = self.bsce_weight
+
 
 class CrossEntropyLabelSmooth(CrossEntropy):
     r"""Cross entropy loss with label smoothing regularizer.
@@ -167,11 +194,6 @@ class FocalLoss(CrossEntropy):
                 self.weight_list = torch.FloatTensor(np.array([min(self.num_class_list) / N for N in self.num_class_list])).to(self.device)
             else:
                 self.weight_list = torch.FloatTensor(np.array([1 for _ in self.num_class_list])).to(self.device)
-        if DEBUG:
-            print('*'*100)
-            print(self.weight_list)
-            print(self.drw)
-            print('*'*100)
 
 class ClassBalanceCE(CrossEntropy):
     r"""
@@ -203,11 +225,6 @@ class ClassBalanceCE(CrossEntropy):
             start = (epoch-1) // self.drw_start_epoch
             if start:
                 self.weight_list = self.class_balanced_weight
-        if DEBUG:
-            print('*'*100)
-            print(self.weight_list)
-            print(self.drw)
-            print('*'*100)
 
 
 class ClassBalanceFocal(CrossEntropy):
@@ -261,11 +278,6 @@ class ClassBalanceFocal(CrossEntropy):
                 self.weight_list = self.class_balanced_weight
             else:
                 self.weight_list = torch.ones(self.class_balanced_weight.shape).to(self.device)
-        if DEBUG:
-            print('*'*100)
-            print(self.weight_list)
-            print(self.drw)
-            print('*'*100)
 
 class CostSensitiveCE(CrossEntropy):
     r"""
@@ -295,11 +307,6 @@ class CostSensitiveCE(CrossEntropy):
             start = (epoch-1) // self.drw_start_epoch
             if start:
                 self.weight_list = self.csce_weight
-        if DEBUG:
-            print('*'*100)
-            print(self.weight_list)
-            print(self.drw)
-            print('*'*100)
 
 class LDAMLoss(CrossEntropy):
     """
@@ -343,16 +350,6 @@ class LDAMLoss(CrossEntropy):
         per_cls_weights = (1.0 - self.betas[idx]) / (1.0 - np.power(self.betas[idx], self.num_class_list))
         per_cls_weights = per_cls_weights / np.sum(per_cls_weights) * len(self.num_class_list)
         self.weight_list = torch.FloatTensor(per_cls_weights).to(self.device)
-        if DEBUG:
-            print('*'*100)
-            print(self.weight_list)
-            print(self.drw)
-            print('*'*100)
-        # print(self.weight_list)
-        # print(self.m_list)
-        # print(self.num_class_list)
-        # print(self.s)
-        # print(self.max_m)
 
     def forward(self, inputs, targets, **kwargs):
         """
@@ -368,9 +365,6 @@ class LDAMLoss(CrossEntropy):
         batch_m = batch_m.view((-1, 1))
         x_m = inputs - batch_m
         outputs = torch.where(index, x_m, inputs)
-        # print('*'*100)
-        # print(inputs[0])
-        # print(x_m[0])
         return F.cross_entropy(self.s * outputs, targets, weight=self.weight_list)
 
 
@@ -399,7 +393,6 @@ class SEQL(CrossEntropy):
     def __init__(self, para_dict=None):
         super(SEQL, self).__init__(para_dict)
         num_class_list = torch.FloatTensor(self.num_class_list)
-        #print(num_class_list/num_class_list.sum())
         self.t_lambda = ((num_class_list/num_class_list.sum()) < self.para_dict['cfg'].LOSS.SEQL.LAMBDA).to(self.device)
         self.gamma = self.para_dict['cfg'].LOSS.SEQL.GAMMA
 
@@ -454,14 +447,6 @@ class BalancedSoftmaxCE(CrossEntropy):
             start = (epoch-1) // self.drw_start_epoch
             if start:
                 self.weight_list = self.bsce_weight
-        if DEBUG:
-            print('*'*100)
-            print(self.weight_list)
-            print(self.drw)
-            print('*'*100)
-        # print(self.num_class_list)
-        # print(self.num_classes)
-        # print(self.drw)
 
 class CDT(CrossEntropy):
     r"""
@@ -503,20 +488,9 @@ class CDT(CrossEntropy):
             start = (epoch-1) // self.drw_start_epoch
             if start:
                 self.weight_list = self.cdt_weight
-        if DEBUG:
-            print('*'*100)
-            print(self.weight_list)
-            print(self.drw)
-            print('*'*100)
 
 
 
-def get_one_hot(label, num_classes):
-    batch_size = label.shape[0]
-    onehot_label = torch.zeros((batch_size, num_classes))
-    onehot_label = onehot_label.scatter_(1, label.unsqueeze(1).detach().cpu(), 1)
-    onehot_label = (onehot_label.type(torch.FloatTensor)).to(label.device)
-    return onehot_label
 
 if __name__ == '__main__':
     pass
