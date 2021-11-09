@@ -11,7 +11,8 @@ This repository is the official PyTorch implementation of [Bag of Tricks for Lon
 
 ## Development log
 
-- [x] `2021-05-19` - Add CONFIGs and experimental results of [BBN-style sampling](https://arxiv.org/abs/1912.02413) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), which consists of a uniform sampler and a reverse sampler.
+- [x] `2021-11-08` - Add [InfluenceBalancedLoss ICCV 2021](https://arxiv.org/abs/2110.02444) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), which belongs to two-stage training.
+- [x] `2021-05-19` - Add CONFIGs and experimental results of [BBN-style sampling CVPR2020](https://arxiv.org/abs/1912.02413) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), which consists of a uniform sampler and a reverse sampler.
 - [x] `2021-05-15` - Add CONFIGs and experimental results of our bag of tricks in [trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md).
 <details><summary>Previous logs</summary>
 <li> <strong>2021-04-24</strong> - Add the validation running command, which loads a trained model, then returns the validation acc and a corresponding confusion matrix figure. See <mark>Usage</mark> in this README for details.</li>

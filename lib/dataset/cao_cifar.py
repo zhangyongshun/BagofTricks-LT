@@ -16,7 +16,7 @@ import math
 class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
     cls_num = 10
 
-    def __init__(self, mode, cfg, root = '~/dataset/cifar', imb_type='exp',
+    def __init__(self, mode, cfg, root = './dataset/cifar', imb_type='exp',
                  transform=None, target_transform=None, download=True):
         train = True if mode == "train" else False
         super(IMBALANCECIFAR10, self).__init__(root, train, transform, target_transform, download)
@@ -116,18 +116,10 @@ class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
 
         img, target = self.data[index]['image'], self.data[index]['category_id']
         meta = dict()
-        if self.dual_sample:
-            if self.cfg.TRAIN.SAMPLER.DUAL_SAMPLER.TYPE == "reverse":
-                sample_class = self.sample_class_index_by_weight()
-                sample_indexes = self.class_dict[sample_class]
-                sample_index = random.choice(sample_indexes)
-            elif self.cfg.TRAIN.SAMPLER.DUAL_SAMPLER.TYPE == "balance":
-                sample_class = random.randint(0, self.cls_num-1)
-                sample_indexes = self.class_dict[sample_class]
-                sample_index = random.choice(sample_indexes)
-            elif self.cfg.TRAIN.SAMPLER.DUAL_SAMPLER.TYPE == "uniform":
-                sample_index = random.randint(0, self.__len__() - 1)
-
+        if self.cfg.TRAIN.SAMPLER.TYPE == "bbn sampler" and self.cfg.TRAIN.SAMPLER.BBN_SAMPLER.TYPE == "reverse":
+            sample_class = self.sample_class_index_by_weight()
+            sample_indexes = self.class_dict[sample_class]
+            sample_index = random.choice(sample_indexes)
             sample_img, sample_label = self.data[sample_index], self.targets[sample_index]
             sample_img = Image.fromarray(sample_img)
             sample_img = self.transform(sample_img)

@@ -23,6 +23,7 @@ class FocalLoss(CrossEntropy):
         super(FocalLoss, self).__init__(para_dict)
         self.gamma = self.para_dict['cfg'].LOSS.FocalLoss.GAMMA #hyper-parameter
         self.sigmoid = nn.Sigmoid()
+
     def forward(self, inputs, targets, **kwargs):
         """
         Args:

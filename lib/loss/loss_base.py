@@ -1,7 +1,5 @@
-import torch
 import torch.nn as nn
 from torch.nn import functional as F
-import numpy as np
 
 class CrossEntropy(nn.Module):
     def __init__(self, para_dict=None):
@@ -12,7 +10,8 @@ class CrossEntropy(nn.Module):
         self.device = self.para_dict['device']
 
         self.weight_list = None
-        #setting about defferred re-balancing by re-weighting (DRW)
+
+        #settings of defferred re-balancing by re-weighting (DRW)
         self.drw = self.para_dict['cfg'].TRAIN.TWO_STAGE.DRW
         self.drw_start_epoch = self.para_dict['cfg'].TRAIN.TWO_STAGE.START_EPOCH #start from 1
 
@@ -31,6 +30,4 @@ class CrossEntropy(nn.Module):
         Args:
             epoch: int. starting from 1.
         """
-        start = (epoch-1) // self.drw_start_epoch
-        if start and self.drw:
-            self.weight_list = torch.FloatTensor(np.array([min(self.num_class_list) / N for N in self.num_class_list])).to(self.device)
+        pass

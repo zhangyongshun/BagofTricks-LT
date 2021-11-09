@@ -100,7 +100,8 @@ _C.LOSS.SEQL = CN()
 _C.LOSS.SEQL.GAMMA = 0.9
 _C.LOSS.SEQL.LAMBDA = 0.005
 
-
+_C.LOSS.InfluenceBalancedLoss = CN()
+_C.LOSS.InfluenceBalancedLoss.ALPHA = 1000.
 
 # ----- TRAIN BUILDER -----
 _C.TRAIN = CN()
