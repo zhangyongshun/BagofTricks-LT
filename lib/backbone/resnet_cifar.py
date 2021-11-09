@@ -144,7 +144,7 @@ class ResNet_Cifar(nn.Module):
         return out
 
 def res32_cifar(
-    cfg,
+    cfg=None,
     pretrain=True,
     pretrained_model="",
     last_layer_stride=2,

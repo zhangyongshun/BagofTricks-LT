@@ -1,15 +1,16 @@
-NAME: 'focal'
-OUTPUT_DIR: './output/cifar10_im50/'
+NAME: 'ibloss-drw'
+OUTPUT_DIR: './output/cifar100_im100'
 SHOW_STEP: 100
 SAVE_STEP: 5
 VALID_STEP: 1
 INPUT_SIZE: (32, 32)
 COLOR_SPACE: 'RGB'
 
+
 DATASET:
   DATASET: 'CIFAR'
-  TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance50/cifar10_imbalance50_train.json'
-  VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar10_imbalance50/cifar10_imbalance50_valid.json'
+  TRAIN_JSON: '/mnt/ramdisk/CIFAR-LT/cifar100_imbalance100_train.json'
+  VALID_JSON: '/mnt/ramdisk/CIFAR-LT/cifar100_imbalance100_valid.json'
 
 BACKBONE:
   TYPE: 'res32_cifar'
@@ -22,11 +23,17 @@ CLASSIFIER:
   BIAS: True
 
 LOSS:
-  LOSS_TYPE: 'FocalLoss'
-  FocalLoss:
-    GAMMA: 2.0
+  LOSS_TYPE: 'InfluenceBalancedLoss'
+  InfluenceBalancedLoss:
+    ALPHA: 1000.
 
 TRAIN:
+
+  TWO_STAGE:
+    DRW: True
+    START_EPOCH: 100
+
+
   BATCH_SIZE: 128
   MAX_EPOCH: 200
   NUM_WORKERS: 16
@@ -39,7 +46,7 @@ TRAIN:
     WEIGHT_DECAY: 2e-4
   LR_SCHEDULER:
     TYPE: 'warmup'
-    LR_STEP: [160, 180]
+    LR_STEP: [100, 160, 180]
     LR_FACTOR: 0.01
     WARM_EPOCH: 5
   TENSORBOARD:

@@ -1,43 +1,32 @@
 ## Bag of tricks for long-tailed visual recognition with deep convolutional neural networks
 
-This repository is the official PyTorch implementation of AAAI-21 paper [Bag of Tricks for Long-Tailed Visual Recognition with Deep Convolutional Neural Networks](http://www.lamda.nju.edu.cn/zhangys/papers/AAAI_tricks.pdf), which provides practical and effective tricks used in long-tailed image classification. 
+This repository is the official PyTorch implementation of [Bag of Tricks for Long-Tailed Visual Recognition with Deep Convolutional Neural Networks](http://www.lamda.nju.edu.cn/zhangys/papers/AAAI_tricks.pdf), which provides practical and effective tricks used in long-tailed image classification. 
 
 
 
-#### Trick gallery:  ***[trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md)***
+- #### Trick gallery:  ***[trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md)***. 
+  - The tricks will be **constantly updated**.
+- #### Recommond to install [Github Sort Content](https://github.com/Mottie/GitHub-userscripts/wiki/GitHub-sort-content), which can sort the columns of tables listed on github. With Github Sort Content, you can easily find the most efficient trick under each dataset in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md). You can see [this issue on stackoverflow](https://stackoverflow.com/questions/42843288/is-there-any-way-to-make-markdown-tables-sortable) for more information.
 
-
-
-
-* The tricks will be **constantly updated**. If you have or need any long-tail related trick newly proposed, 
-  please to [open an issue](https://github.com/zhangyongshun/BagofTricks-LT/issues) or [pull requests](https://github.com/zhangyongshun/BagofTricks-LT/pulls). Make sure to attach the results in corresponding md files if you pull a request with a new trick.
-* For any problem, such as bugs, feel free to [open an issue](https://github.com/zhangyongshun/BagofTricks-LT/issues).
-
-<!--<><summary> <b>TODO LIST</b> </summary></details>-->
-
-## Paper collection of long-tailed visual recognition
-
-[Awesome-of-Long-Tailed-Recognition](https://github.com/zwzhang121/Awesome-of-Long-Tailed-Recognition)
-
-[Long-Tailed-Classification-Leaderboard](https://github.com/yanyanSann/Long-Tailed-Classification-Leaderboard)
 
 ## Development log
 
-- [x] `2020-12-26` - Reorignize all the codes, according to [BBN](https://github.com/Megvii-Nanjing/BBN).
-- [x] `2020-12-30` - Add codes of torch.nn.parallel.DistributedDataParallel. Support apex in both torch.nn.DataParallel and torch.nn.parallel.DistributedDataParallel.
-- [x] `2021-01-02` - Add [LDAMLoss, NeurIPS 2019](https://arxiv.org/abs/1906.07413), and a regularization method: [label smooth cross-entropy, CVPR 2016](https://arxiv.org/abs/1512.00567).
-- [x] `2021-01-05` - Add [SEQL (softmax equalization loss), CVPR 2020](https://arxiv.org/abs/2003.05176).
-- [x] `2021-01-10` - Add [CDT (class-dependent temparature), arXiv 2020](https://arxiv.org/abs/2001.01385), [BSCE (balanced-softmax cross-entropy), NeurIPS 2020](https://papers.nips.cc/paper/2020/file/2ba61cc3a8f44143e1f2f13b2b729ab3-Paper.pdf), and support a smooth version of cost-sensitive cross-entropy (smooth CS_CE), which add a hyper-parameter $ \gamma$ to vanilla CS_CE. In smooth CS_CE, the loss weight of class i is defined as: $(\frac{N_{min}}{N_i})^\gamma$, where $\gamma \in [0, 1]$, $N_i$ is the number of images in class i. We can set $\gamma = 0.5$ to get a square-root version of CS_CE.
-- [x] `2021-01-11` - Add a mixup related method: [Remix, ECCV 2020 workshop](https://arxiv.org/abs/2007.03943).
-- [x] `2021-02-19` - Test and add the results of two-stage training in trick_gallery.md
-- [x] `2021-01-30` - Add the results of combining mixup methods and re-balancing in [trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md).
-- [x] `2021-04-22` - Add one option (TRAIN.APEX) in [config.py](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/config/default.py), so you can set TRAIN.APEX to False for training without using apex.
-- [x] `2021-04-23` - Add CrossEntropyLabelAwareSmooth ([label-aware smoothing, CVPR 2021](https://arxiv.org/abs/2104.00466)) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md).
-- [x] `2021-04-24` - Add [classifier-balancing](https://openreview.net/forum?id=r1gRTCVFvB) and corresponding experiments in Two-stage training in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), including $\tau$-normalization, cRT and LWS.
-- [x] `2021-04-24` - Add the validation running command, which loads a trained model, then returns the validation acc and a corresponding confusion matrix figure. See `Usage` in this README for details.
+- [x] `2021-11-08` - Add [InfluenceBalancedLoss ICCV 2021](https://arxiv.org/abs/2110.02444) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), which belongs to two-stage training.
+- [x] `2021-05-19` - Add CONFIGs and experimental results of [BBN-style sampling CVPR2020](https://arxiv.org/abs/1912.02413) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), which consists of a uniform sampler and a reverse sampler.
 - [x] `2021-05-15` - Add CONFIGs and experimental results of our bag of tricks in [trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md).
-- [x] `2021-05-19` - Add CONFIGs and experimental results of [BBN-style sampling](https://arxiv.org/abs/1912.02413) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), which consists of a uniform sampler and a reverse sampler.
-- [x] `2021-05-19` - Add results of bbn-style sampling and input mixup in [trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md).
+<details><summary>Previous logs</summary>
+<li> <strong>2021-04-24</strong> - Add the validation running command, which loads a trained model, then returns the validation acc and a corresponding confusion matrix figure. See <mark>Usage</mark> in this README for details.</li>
+<li> <strong>2021-04-24</strong> - Add <a href="https://openreview.net/forum?id=r1gRTCVFvB">classifier-balancing</a> and corresponding experiments in Two-stage training in <a href="https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md">trick_gallery.md</a>, including $\tau$-normalization, cRT and LWS. </li>
+<li> <strong>2021-04-23</strong> - Add CrossEntropyLabelAwareSmooth (<a href="https://arxiv.org/abs/2104.00466">label-aware smoothing, CVPR 2021</a>) in <a href="https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md">trick_gallery.md</a>. </li>
+<li> <strong>2021-04-22</strong> - Add one option (TRAIN.APEX) in <a href="https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/config/default.py">config.py</a>, so you can set TRAIN.APEX to False for training without using apex.</li>
+<li> <strong>2021-01-30</strong> - Add the results of combining mixup methods and re-balancing in <a href="https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md">trick_combination.md</a>.</li>
+<li> <strong>2021-02-19</strong> - Test and add the results of two-stage training in <a href="https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md">trick_gallery.md</a>.</li>
+<li> <strong>2021-01-11</strong> - Add a mixup related method: <a href="https://arxiv.org/abs/2007.03943">Remix, ECCV 2020 workshop</a>.</li>
+<li> <strong>2021-01-10</strong> - Add <a href="https://arxiv.org/abs/2001.01385">CDT (class-dependent temparature), arXiv 2020</a>, <a href="https://papers.nips.cc/paper/2020/file/2ba61cc3a8f44143e1f2f13b2b729ab3-Paper.pdf">BSCE (balanced-softmax cross-entropy), NeurIPS 2020</a>, and support a smooth version of cost-sensitive cross-entropy (smooth CS_CE), which add a hyper-parameter $ \gamma$ to vanilla CS_CE. In smooth CS_CE, the loss weight of class i is defined as: $(\frac{N_{min}}{N_i})^\gamma$, where $\gamma \in [0, 1]$, $N_i$ is the number of images in class i. We can set $\gamma = 0.5$ to get a square-root version of CS_CE.</li>
+<li> <strong>2021-01-05</strong> - Add <a href="https://arxiv.org/abs/2003.05176">SEQL (softmax equalization loss), CVPR 2020</a>.</li>
+<li> <strong>2021-01-02</strong> - Add <a href="https://arxiv.org/abs/1906.07413">LDAMLoss, NeurIPS 2019</a>, and a regularization method: <a href="https://arxiv.org/abs/1512.00567">label smooth cross-entropy, CVPR 2016</a>.</li>
+<li> <strong>2020-12-30</strong> - Add codes of torch.nn.parallel.DistributedDataParallel. Support apex in both torch.nn.DataParallel and torch.nn.parallel.DistributedDataParallel.</li>
+</details>
 
 ## Trick gallery and combinations
 
@@ -45,7 +34,6 @@ This repository is the official PyTorch implementation of AAAI-21 paper [Bag of 
 
 We divided the long-tail realted tricks into four families: re-weighting, re-sampling, mixup training, and two-stage training. For more details of the above four trick families, see the [original paper](https://cs.nju.edu.cn/wujx/paper/AAAI2021_Tricks.pdf).
 
-<!--For re-weighting, re-sampling, and mixup training, we implement these methods in  [loss](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/loss/loss.py), [dataset](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/lib/dataset), and [combiner](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/core/combiner.py), respectively. For two-stage training, which contains DRW and DRS, we implement them in  [loss](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/loss/loss.py) and [dataset](https://github.com/zhangyongshun/BagofTricks-LT/tree/main/lib/dataset).-->
 
 #### Detailed information :
 
@@ -56,8 +44,6 @@ We divided the long-tail realted tricks into four families: re-weighting, re-sam
 - Trick combinations:
 
   ##### Combinations of different tricks, corresponding results, experimental settings, and running commands are listed in *[trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md)*.
-  
-- These tricks and trick combinations, which provide the corresponding results in this repo, have been reorgnized and tested. We are trying our best to deal with the rest, which will be constantly updated.
 
 
 ## Main requirements
@@ -363,7 +349,11 @@ python main/valid.py --cfg [Your yaml] --gpus GPUS
 </tbody>
 </table>
 
+## Paper collection of long-tailed visual recognition
 
+[Awesome-of-Long-Tailed-Recognition](https://github.com/zwzhang121/Awesome-of-Long-Tailed-Recognition)
+
+[Long-Tailed-Classification-Leaderboard](https://github.com/yanyanSann/Long-Tailed-Classification-Leaderboard)
 
 ## Citation
 
