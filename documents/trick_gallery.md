@@ -2,13 +2,12 @@
 
 - The file contains the results, experimental settings, and running commands of different tricks. These tricks are divided into four families, which are re-weighting, re-sampling, mixup training, and two-stage training. For more details of the above four trick families, see the [original paper](https://cs.nju.edu.cn/wujx/paper/AAAI2021_Tricks.pdf).
 - For any problem, such as bugs, feel free to [open an issue](https://github.com/zhangyongshun/BagofTricks-LT/issues).
-- <u>Before you train, you should change the training and validation jsons in CONFIG files to your own path.</u>
 - <u>Click each method to get the experimental setting  configs and running commands.</u>
 
 ### Re-weighting
 
 - Strictly speaking, the LDAM loss, CrossEntropyLabelSmooth, CDT, and SEQL do not belong to re-weighting methods, but both of them consider the long-tailed distribution when calculate the losses, and they can be combined with re-weighting in DRW. So we add them to re-weighting family.
-- The methods of re-weighting are realized in [loss.py](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/loss/loss.py).
+- The methods of re-weighting are realized in [loss](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/loss).
 
 | Datasets                                                     | CIFAR-10-LT-100 | CIFAR-10-LT-50 | CIFAR-100-LT-100 | CIFAR-100-LT-50 |
 | ------------------------------------------------------------ | :-------------: | :------------: | :--------------: | :-------------: |
@@ -53,7 +52,7 @@
 
 ##### DRW
 
-- The methods of DRW are realized in [loss.py](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/loss/loss.py).
+- The methods of DRW are realized in [loss](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/loss).
 
 | First Stage | Second Stage                                                 | CIFAR-10-LT-100 | CIFAR-10-LT-50 | CIFAR-100-LT-100 | CIFAR-100-LT-50 |
 | ----------- | :----------------------------------------------------------- | :-------------: | :------------: | :--------------: | :-------------: |
