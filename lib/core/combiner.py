@@ -45,7 +45,7 @@ class Combiner:
     def default(self, model, criterion, image, label, meta, **kwargs):
         image, label = image.to(self.device), label.to(self.device)
         if 'sample_image' in meta and 'sample_label' in meta:
-            image_b = meta["samphttps://github.com/pseulki/IB-Loss/blob/751cd39e43dee4f6cb9fff2d3fb24acd633a22c3/models/resnet_cifar.py#L130le_image"].to(self.device)
+            image_b = meta["sample_image"].to(self.device)
             label_b = meta["sample_label"].to(self.device)
             image = torch.cat([image, image_b], dim=0)
             label = torch.cat([label, label_b])
