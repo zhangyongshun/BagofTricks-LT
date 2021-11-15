@@ -48,7 +48,7 @@ TRAIN:
     LR_FACTOR: 0.01
     WARM_EPOCH: 5
   TENSORBOARD:
-    ENABLE: True
+    ENABLE: False
   SAMPLER:
     TYPE: 'weighted sampler'
     WEIGHTED_SAMPLER:

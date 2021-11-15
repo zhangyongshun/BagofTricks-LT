@@ -40,15 +40,11 @@ class BaseSet(Dataset):
         else:
             assert os.path.isfile(self.cfg.DATASET.CAM_DATA_JSON_SAVE_PATH), \
                 'the CAM-based generated json file does not exist!'
-            self.data = json.load(open(self.cfg.DATASET.CAM_DATA_JSON_SAVE_PATH))
+            self.data = self.all_info['annotations'] + json.load(open(self.cfg.DATASET.CAM_DATA_JSON_SAVE_PATH))
         print("Contain {} images of {} classes".format(len(self.data), self.num_classes))
         self.class_weight, self.sum_weight = self.get_weight(self.data, self.num_classes)
 
         if self.cfg.TRAIN.SAMPLER.TYPE == "weighted sampler" and mode == "train":
-            print('-'*20+' dataset'+'-'*20)
-            print('class_weight is (the first 10 classes): ')
-            print(self.class_weight[:10])
-
             num_list, cat_list = get_category_list(self.get_annotations(), self.num_classes, self.cfg)
 
             self.instance_p = np.array([num / sum(num_list) for num in num_list])

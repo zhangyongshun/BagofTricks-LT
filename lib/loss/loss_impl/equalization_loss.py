@@ -2,7 +2,7 @@ import torch
 
 from ..loss_base import CrossEntropy
 from ..utils import get_one_hot
-
+from torch.nn import functional as F
 
 class SEQL(CrossEntropy):
     r"""

@@ -2,10 +2,6 @@
 
 This repository is the official PyTorch implementation of [Bag of Tricks for Long-Tailed Visual Recognition with Deep Convolutional Neural Networks](http://www.lamda.nju.edu.cn/zhangys/papers/AAAI_tricks.pdf), which provides practical and effective tricks used in long-tailed image classification. 
 
-
-
-- #### Trick gallery:  ***[trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md)***. 
-  - The tricks will be **constantly updated**.
 - #### Recommond to install [Github Sort Content](https://github.com/Mottie/GitHub-userscripts/wiki/GitHub-sort-content), which can sort the columns of tables listed on github. With Github Sort Content, you can easily find the most efficient trick under each dataset in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md). You can see [this issue on stackoverflow](https://stackoverflow.com/questions/42843288/is-there-any-way-to-make-markdown-tables-sortable) for more information.
 
 
@@ -13,13 +9,11 @@ This repository is the official PyTorch implementation of [Bag of Tricks for Lon
 
 - [x] `2021-11-08` - Add [InfluenceBalancedLoss ICCV 2021](https://arxiv.org/abs/2110.02444) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), which belongs to two-stage training.
 - [x] `2021-05-19` - Add CONFIGs and experimental results of [BBN-style sampling CVPR2020](https://arxiv.org/abs/1912.02413) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), which consists of a uniform sampler and a reverse sampler.
-- [x] `2021-05-15` - Add CONFIGs and experimental results of our bag of tricks in [trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md).
 <details><summary>Previous logs</summary>
 <li> <strong>2021-04-24</strong> - Add the validation running command, which loads a trained model, then returns the validation acc and a corresponding confusion matrix figure. See <mark>Usage</mark> in this README for details.</li>
 <li> <strong>2021-04-24</strong> - Add <a href="https://openreview.net/forum?id=r1gRTCVFvB">classifier-balancing</a> and corresponding experiments in Two-stage training in <a href="https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md">trick_gallery.md</a>, including $\tau$-normalization, cRT and LWS. </li>
 <li> <strong>2021-04-23</strong> - Add CrossEntropyLabelAwareSmooth (<a href="https://arxiv.org/abs/2104.00466">label-aware smoothing, CVPR 2021</a>) in <a href="https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md">trick_gallery.md</a>. </li>
 <li> <strong>2021-04-22</strong> - Add one option (TRAIN.APEX) in <a href="https://github.com/zhangyongshun/BagofTricks-LT/blob/main/lib/config/default.py">config.py</a>, so you can set TRAIN.APEX to False for training without using apex.</li>
-<li> <strong>2021-01-30</strong> - Add the results of combining mixup methods and re-balancing in <a href="https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md">trick_combination.md</a>.</li>
 <li> <strong>2021-02-19</strong> - Test and add the results of two-stage training in <a href="https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md">trick_gallery.md</a>.</li>
 <li> <strong>2021-01-11</strong> - Add a mixup related method: <a href="https://arxiv.org/abs/2007.03943">Remix, ECCV 2020 workshop</a>.</li>
 <li> <strong>2021-01-10</strong> - Add <a href="https://arxiv.org/abs/2001.01385">CDT (class-dependent temparature), arXiv 2020</a>, <a href="https://papers.nips.cc/paper/2020/file/2ba61cc3a8f44143e1f2f13b2b729ab3-Paper.pdf">BSCE (balanced-softmax cross-entropy), NeurIPS 2020</a>, and support a smooth version of cost-sensitive cross-entropy (smooth CS_CE), which add a hyper-parameter $ \gamma$ to vanilla CS_CE. In smooth CS_CE, the loss weight of class i is defined as: $(\frac{N_{min}}{N_i})^\gamma$, where $\gamma \in [0, 1]$, $N_i$ is the number of images in class i. We can set $\gamma = 0.5$ to get a square-root version of CS_CE.</li>
@@ -28,7 +22,7 @@ This repository is the official PyTorch implementation of [Bag of Tricks for Lon
 <li> <strong>2020-12-30</strong> - Add codes of torch.nn.parallel.DistributedDataParallel. Support apex in both torch.nn.DataParallel and torch.nn.parallel.DistributedDataParallel.</li>
 </details>
 
-## Trick gallery and combinations
+## Trick gallery
 
 #### Brief  inroduction
 
@@ -40,11 +34,6 @@ We divided the long-tail realted tricks into four families: re-weighting, re-sam
 - Trick gallery:
 
   ##### Tricks, corresponding results, experimental settings, and running commands are listed in ***[trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md)***.
-
-- Trick combinations:
-
-  ##### Combinations of different tricks, corresponding results, experimental settings, and running commands are listed in *[trick_combination.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_combination.md)*.
-
 
 ## Main requirements
 ```bash
@@ -252,14 +241,11 @@ python main/valid.py --cfg [Your yaml] --gpus GPUS
 <table>
 <thead>
   <tr>
-    <th rowspan="4" align="center">Datasets</th>
-    <th align="center" colspan="4"><a href="https://arxiv.org/abs/1906.07413">Cao et al., 2020</a></th>
-    <th align="center" rowspan="4">ImageNet-LT</th>
-    <th align="center" rowspan="4">iNat18</th>
-  </tr>
-  <tr>
-    <th align="center"  colspan="2">CIFAR-10-LT</td>
+    <th rowspan="3" align="center">Datasets</th>
+  <th align="center"  colspan="2">CIFAR-10-LT</td>
     <th align="center"  colspan="2">CIFAR-100-LT</td>
+    <th align="center" rowspan="3">ImageNet-LT</th>
+    <th align="center" rowspan="3">iNat18</th>
   </tr>
   <tr>
     <th align="center"  colspan="4" align="center">Imbalance factor</td>
@@ -283,7 +269,6 @@ python main/valid.py --cfg [Your yaml] --gpus GPUS
       <ol>
       <li>CONFIG (from left to right): 
         <ul>
-          <li>configs/cui_cifar/baseline/{cifar10_im100.yaml, cifar10_im50.yaml, cifar100_im100.yaml, cifar100_im50.yaml}</li> 
           <li>configs/cao_cifar/baseline/{cifar10_im100.yaml, cifar10_im50.yaml, cifar100_im100.yaml, cifar100_im50.yaml}</li>
           <li>configs/ImageNet_LT/imagenetlt_baseline.yaml</li>
           <li>configs/iNat18/iNat18_baseline.yaml</li>

@@ -1,5 +1,5 @@
 NAME: 'baseline'
-OUTPUT_DIR: './output/cifar10_im50/baseline'
+OUTPUT_DIR: './output/cifar10_im50'
 SHOW_STEP: 100
 SAVE_STEP: 5
 VALID_STEP: 1

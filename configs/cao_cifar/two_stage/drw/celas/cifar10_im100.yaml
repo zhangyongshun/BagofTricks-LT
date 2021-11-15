@@ -1,15 +1,16 @@
-NAME: 'manifold_mixup_alpha10'
-OUTPUT_DIR: './output/cifar10_im50'
+NAME: 'celas-drw'
+OUTPUT_DIR: './output/cifar10_im100'
 SHOW_STEP: 100
 SAVE_STEP: 5
 VALID_STEP: 1
 INPUT_SIZE: (32, 32)
 COLOR_SPACE: 'RGB'
 
+
 DATASET:
   DATASET: 'IMBALANCECIFAR10'
   IMBALANCECIFAR:
-    RATIO: 0.02
+    RATIO: 0.01
 
 BACKBONE:
   TYPE: 'res32_cifar'
@@ -22,19 +23,23 @@ CLASSIFIER:
   BIAS: True
 
 LOSS:
-  LOSS_TYPE: 'CrossEntropy'
+  LOSS_TYPE: 'CrossEntropyLabelAwareSmooth'
+  CrossEntropyLabelAwareSmooth:
+    SMOOTH_HEAD: 0.4
+    SMOOTH_TAIL: 0.1
+    SHAPE: 'concave'
 
 TRAIN:
+
+  TWO_STAGE:
+    DRW: True
+    START_EPOCH: 160
+
   BATCH_SIZE: 128
-  MAX_EPOCH: 400
+  MAX_EPOCH: 200
   NUM_WORKERS: 16
-
   COMBINER:
-    TYPE: 'manifold_mix_up'
-    ALPHA: 1.0
-    MANIFOLD_MIX_UP:
-      LOCATION: "pool"
-
+    TYPE: 'default'
   OPTIMIZER:
     TYPE: 'SGD'
     BASE_LR: 0.1
@@ -42,7 +47,7 @@ TRAIN:
     WEIGHT_DECAY: 2e-4
   LR_SCHEDULER:
     TYPE: 'warmup'
-    LR_STEP: [320, 360]
+    LR_STEP: [160, 180]
     LR_FACTOR: 0.01
     WARM_EPOCH: 5
   TENSORBOARD:

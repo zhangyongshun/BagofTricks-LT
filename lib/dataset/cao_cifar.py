@@ -26,8 +26,6 @@ class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
         self.input_size = cfg.INPUT_SIZE
         self.color_space = cfg.COLOR_SPACE
 
-        print("Use {} Mode to train network".format(self.color_space))
-
         rand_number = cfg.DATASET.IMBALANCECIFAR.RANDOM_SEED
         if self.train:
             np.random.seed(rand_number)
@@ -52,32 +50,30 @@ class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
         '''
             load the generated CAM-based dataset
         '''
+
+
         if self.cfg.DATASET.USE_CAM_BASED_DATASET and mode == 'train':
             assert os.path.isfile(self.cfg.DATASET.CAM_DATA_JSON_SAVE_PATH), \
                 'the CAM-based generated json file does not exist!'
-            self.data = json.load(open(self.cfg.DATASET.CAM_DATA_JSON_SAVE_PATH))
+            self.data = self.data + json.load(open(self.cfg.DATASET.CAM_DATA_JSON_SAVE_PATH))
             new_data = []
             for info in self.data:
                 if 'fpath' not in info:
                     new_data.append(copy.deepcopy(info))
                     continue
-                img = self._get_image(info)
+                img = self._load_image(info)
                 new_data.append({
                     'image': img,
                     'category_id': info['category_id']
                 })
             self.data = new_data
 
+        self.class_dict = self._get_class_dict()
 
         print("{} Mode: Contain {} images".format(mode, len(self.data)))
         self.class_weight, self.sum_weight = self.get_weight(self.get_annotations(), self.cls_num)
         if self.cfg.TRAIN.SAMPLER.TYPE == "weighted sampler" and self.train:
-
-            self.class_dict = self._get_class_dict()
-
             print('-'*20+'in imbalance cifar dataset'+'-'*20)
-            print('class_dict is: ')
-            print(self.class_dict)
             print('class_weight is: ')
             print(self.class_weight)
 
@@ -86,7 +82,7 @@ class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
             self.class_p = np.array([1/self.cls_num for _ in num_list])
             num_list = [math.sqrt(num) for num in num_list]
             self.square_p = np.array([num / sum(num_list) for num in num_list])
-            self.class_dict = self._get_class_dict()
+
 
     def update(self, epoch):
         self.epoch = max(0, epoch-self.cfg.TRAIN.TWO_STAGE.START_EPOCH) if self.cfg.TRAIN.TWO_STAGE.DRS else epoch
@@ -116,26 +112,25 @@ class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
 
         img, target = self.data[index]['image'], self.data[index]['category_id']
         meta = dict()
+        # doing this so that it is consistent with all other datasets
+        # to return a PIL Image
+        img = Image.fromarray(img)
+        if self.transform is not None:
+            img = self.transform(img)
+        if self.target_transform is not None:
+            target = self.target_transform(target)
+
         if self.cfg.TRAIN.SAMPLER.TYPE == "bbn sampler" and self.cfg.TRAIN.SAMPLER.BBN_SAMPLER.TYPE == "reverse":
             sample_class = self.sample_class_index_by_weight()
             sample_indexes = self.class_dict[sample_class]
             sample_index = random.choice(sample_indexes)
-            sample_img, sample_label = self.data[sample_index], self.targets[sample_index]
+            sample_img, sample_label = self.data[sample_index]['image'], self.data[sample_index]['category_id']
             sample_img = Image.fromarray(sample_img)
             sample_img = self.transform(sample_img)
-
+            if self.target_transform is not None:
+                sample_label = self.target_transform(sample_label)
             meta['sample_image'] = sample_img
             meta['sample_label'] = sample_label
-        # doing this so that it is consistent with all other datasets
-        # to return a PIL Image
-        img = Image.fromarray(img)
-
-        if self.transform is not None:
-            img = self.transform(img)
-
-        if self.target_transform is not None:
-            target = self.target_transform(target)
-
         return img, target, meta
 
     def sample_class_index_by_weight(self):
@@ -163,6 +158,29 @@ class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
 
     def reset_epoch(self, cur_epoch):
         self.epoch = cur_epoch
+
+    def imread_with_retry(self, fpath):
+        retry_time = 10
+        for k in range(retry_time):
+            try:
+                img = cv2.imread(fpath)
+                if img is None:
+                    print(fpath)
+                    print("img is None, try to re-read img")
+                    continue
+                return img
+            except Exception as e:
+                if k == retry_time - 1:
+                    assert False, "pillow open {} failed".format(fpath)
+                time.sleep(0.1)
+
+    def _load_image(self, now_info):
+        fpath = os.path.join(now_info["fpath"])
+        img = self.imread_with_retry(fpath)
+        if self.color_space == "RGB":
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        return img
+
 
     def _get_class_dict(self):
         class_dict = dict()
@@ -201,27 +219,9 @@ class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
             annos.append({'category_id': int(d['category_id'])})
         return annos
 
-    def imread_with_retry(self, fpath):
-        retry_time = 10
-        for k in range(retry_time):
-            try:
-                img =cv2.imread(fpath)
-                if img is None:
-                    print("img is None, try to re-read img")
-                    continue
-                return img#.convert('RGB')
-            except Exception as e:
-                if k == retry_time - 1:
-                    assert False, "pillow open {} failed".format(fpath)
-                time.sleep(0.1)
-
     def _get_image(self, now_info):
-        fpath = os.path.join(now_info["fpath"])
-        img = self.imread_with_retry(fpath)
-
-        if self.color_space == "RGB":
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        return img
+        img = now_info['image']
+        return copy.deepcopy(img)
 
     def gen_imbalanced_data(self, img_num_per_cls):
         new_data = []
@@ -254,7 +254,7 @@ class IMBALANCECIFAR10(torchvision.datasets.CIFAR10):
 
 
     def __len__(self):
-        return len(self.data)
+        return len(self.all_info)
 
 
 
