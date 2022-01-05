@@ -9,9 +9,10 @@ from .loss_impl.equalization_loss import SEQL
 from .loss_impl.focal_loss import FocalLoss
 from .loss_impl.influence_balanced_loss import InfluenceBalancedLoss
 from .loss_impl.ldam_loss import LDAMLoss
+from .loss_impl.kld_loss import DiVEKLD
 
 __all__ = [
     'CrossEntropy', 'BalancedSoftmaxCE', 'ClassBalanceCE', 'ClassBalanceFocal',
     'CDT', 'CostSensitiveCE', 'CrossEntropyLabelSmooth', 'CrossEntropyLabelAwareSmooth',
-    'SEQL', 'FocalLoss', 'InfluenceBalancedLoss', 'LDAMLoss'
+    'SEQL', 'FocalLoss', 'InfluenceBalancedLoss', 'LDAMLoss', 'DiVEKLD'
 ]
