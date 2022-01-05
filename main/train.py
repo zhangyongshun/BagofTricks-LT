@@ -342,7 +342,3 @@ if __name__ == "__main__":
             "-------------------Train Finished :{}-------------------".format(cfg.NAME)
         )
 
-    import pickle as pkl
-    pkl.dump(train_acc_list, open(os.path.join(cfg.OUTPUT_DIR, cfg.NAME, 'train_acc_list.pkl'), 'wb'))
-    pkl.dump(val_acc_list, open(os.path.join(cfg.OUTPUT_DIR, cfg.NAME, 'val_acc_list.pkl'), 'wb'))
-
