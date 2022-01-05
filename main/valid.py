@@ -107,7 +107,7 @@ if __name__ == "__main__":
     device = torch.device("cuda")
     model = Network(cfg, mode="test", num_classes=num_classes)
 
-    #model_file = '/mnt/data3/zhangys/programs/BagofTricks-LT/output/cifar10_im100/csce_cbs/models/best_model.pth'# os.path.join(cfg.OUTPUT_DIR, cfg.NAME, 'models', cfg.TEST.MODEL_FILE)
+    model_file = os.path.join(cfg.OUTPUT_DIR, cfg.NAME, 'models', cfg.TEST.MODEL_FILE)
     model.load_model(model_file, tau_norm=cfg.TEST.TAU_NORM.USE_TAU_NORM, tau=cfg.TEST.TAU_NORM.TAU)
 
     model = torch.nn.DataParallel(model).cuda()
