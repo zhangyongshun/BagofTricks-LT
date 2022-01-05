@@ -1,6 +1,7 @@
 import numpy as np
 import torch, math
 from core.evaluate import accuracy
+from net import Network
 
 class Combiner:
     def __init__(self, cfg, device, num_class_list=None):
@@ -171,4 +172,24 @@ class Combiner:
                 l * accuracy(now_result.cpu().numpy(), label_a.cpu().numpy())[0]
                 + (1 - l) * accuracy(now_result.cpu().numpy(), label_b.cpu().numpy())[0]
         )
+        return loss, now_acc
+
+    def dive(self, model, criterion, image, label, meta, **kwargs):
+
+        if not hasattr(self, 'model_t'):
+            print('Loading the teacher model in DiVE')
+            self.model_t = Network(self.cfg, mode="test", num_classes=len(self.num_class_list))
+            self.model_t.load_model(self.cfg.TRAIN.COMBINER.DIVE.TEACHER_MODEL)
+            self.model_t = torch.nn.DataParallel(self.model_t).cuda()
+            self.model_t.eval()
+
+        image, label = image.to(self.device), label.to(self.device)
+        output_s = model(image)
+
+        with torch.no_grad():
+            output_t = self.model_t(image)
+
+        loss = criterion(output_s, output_t, label)
+        now_result = torch.argmax(self.func(output_s), 1)
+        now_acc = accuracy(now_result.cpu().numpy(), label.cpu().numpy())[0]
         return loss, now_acc

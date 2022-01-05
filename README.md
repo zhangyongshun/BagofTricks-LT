@@ -7,6 +7,7 @@ This repository is the official PyTorch implementation of [Bag of Tricks for Lon
 
 ## Development log
 
+- [x] `2022-01-05` - Add [DiVE ICCV 2021](https://arxiv.org/abs/2103.15042) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), which belongs knowledge distillation methods.
 - [x] `2021-11-08` - Add [InfluenceBalancedLoss ICCV 2021](https://arxiv.org/abs/2110.02444) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), which belongs to two-stage training.
 - [x] `2021-05-19` - Add CONFIGs and experimental results of [BBN-style sampling CVPR2020](https://arxiv.org/abs/1912.02413) in [trick_gallery.md](https://github.com/zhangyongshun/BagofTricks-LT/blob/main/documents/trick_gallery.md), which consists of a uniform sampler and a reverse sampler.
 <details><summary>Previous logs</summary>

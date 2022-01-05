@@ -73,6 +73,8 @@ def valid_model(
 ):
     model.eval()
 
+    if cfg.LOSS.LOSS_TYPE=="DiVEKLD":
+        criterion = criterion.base_loss
     with torch.no_grad():
         all_loss = AverageMeter()
         acc_avg = AverageMeter()

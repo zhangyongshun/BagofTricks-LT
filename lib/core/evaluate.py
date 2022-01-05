@@ -88,7 +88,7 @@ class FusionMatrix(object):
         plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
                  rotation_mode="anchor")
 
-        # Loop over data dimensions and create text annotations.
+        #Loop over data dimensions and create text annotations.
         fmt = '.2f' if normalize else 'd'
         thresh = cm.max() / 2.
         for i in range(cm.shape[0]):

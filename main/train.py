@@ -267,6 +267,9 @@ if __name__ == "__main__":
             )
         )
 
+    train_acc_list = []
+    val_acc_list = []
+
     for epoch in range(start_epoch, epoch_number + 1):
         if cfg.TRAIN.DISTRIBUTED:
             train_sampler.set_epoch(epoch)
@@ -307,6 +310,8 @@ if __name__ == "__main__":
                 validLoader, epoch, model, cfg, criterion, logger, device,
                 rank=rank, distributed=cfg.TRAIN.DISTRIBUTED, writer=writer
             )
+            train_acc_list.append(train_acc)
+            val_acc_list.append(valid_acc)
             loss_dict["valid_loss"], acc_dict["valid_acc"] = valid_loss, valid_acc
             if valid_acc > best_result and local_rank == 0:
                 best_result, best_epoch = valid_acc, epoch
@@ -336,3 +341,8 @@ if __name__ == "__main__":
         logger.info(
             "-------------------Train Finished :{}-------------------".format(cfg.NAME)
         )
+
+    import pickle as pkl
+    pkl.dump(train_acc_list, open(os.path.join(cfg.OUTPUT_DIR, cfg.NAME, 'train_acc_list.pkl'), 'wb'))
+    pkl.dump(val_acc_list, open(os.path.join(cfg.OUTPUT_DIR, cfg.NAME, 'val_acc_list.pkl'), 'wb'))
+
